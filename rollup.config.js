@@ -23,8 +23,8 @@ export default {
   ],
   plugins: [
     del({ targets: 'build' }),
-    peerDepsExternal(),
-    resolve(),
+    // peerDepsExternal(),
+    // resolve(),
     commonjs({
       include: 'node_modules/**',
     }),
