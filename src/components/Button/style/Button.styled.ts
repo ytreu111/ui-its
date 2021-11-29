@@ -1,8 +1,8 @@
-import styled, { keyframes } from "styled-components/macro";
+import styled, { keyframes } from "styled-components";
 
-import { IButtonProps } from "../model/Button.model";
 import { styleMixins } from "styles";
 import * as CSS from "csstype";
+import { PropsWithChildren } from "react";
 
 const {addPaddingsProps, addMarginsProps} = styleMixins.offset;
 
@@ -54,7 +54,7 @@ const LoadingIconWrap = styled.div`
 
 const TextWrap = styled.div``
 
-const StyledButton = styled.button<IButtonProps>`
+const StyledButton = styled.button<PropsWithChildren<any>>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,6 +66,7 @@ const StyledButton = styled.button<IButtonProps>`
   cursor: pointer;
   position: relative;
   height: 40px;
+  overflow: hidden;
 
   ${(props) => defaultTitleStyle(props, 7)}
   ${(props) => props.fontSize ? 'font-size:' + props.fontSize + ';' : ''}
@@ -451,5 +452,4 @@ export const Styled = {
   BlueButton,
   LoadingIconWrap,
   TextWrap,
-  TransparentButton,
 }

@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "homepage": "/",
+  "main": "build/index.js",
+  "module": "build/index.esm.js",
   "scripts": {
     "build": "rollup -c",
     "storybook": "NODE_PATH=src start-storybook -p 6006",
@@ -29,7 +31,7 @@
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-typescript2": "^0.31.1",
     "typescript": "^4.5.2"
   },
   "peerDependencies": {

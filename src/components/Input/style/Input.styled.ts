@@ -1,7 +1,10 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import Button from "components/Button/Button";
 
 const StyledInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  
   & * {
     box-sizing: border-box;
   }

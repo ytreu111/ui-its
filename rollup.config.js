@@ -25,23 +25,23 @@ export default {
     del({ targets: 'build' }),
     // peerDepsExternal(),
     // resolve(),
-    commonjs({
-      include: 'node_modules/**',
-    }),
+    // commonjs({
+    //   include: 'node_modules/**',
+    // }),
     typescript({
       useTsconfigDeclarationDir: true,
     }),
-    terser({
-      ecma: 2018,
-      mangle: { toplevel: true },
-      compress: {
-        module: true,
-        toplevel: true,
-        unsafe_arrows: true,
-        drop_console: true,
-        drop_debugger: true
-      },
-      output: { quote_style: 1 }
-    })
+    // terser({
+    //   ecma: 2018,
+    //   mangle: { toplevel: true },
+    //   compress: {
+    //     module: true,
+    //     toplevel: true,
+    //     unsafe_arrows: true,
+    //     drop_console: true,
+    //     drop_debugger: true
+    //   },
+    //   output: { quote_style: 1 }
+    // })
   ],
 };

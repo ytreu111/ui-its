@@ -18,7 +18,7 @@ const {
   PurpleButton,
   MagentaButton,
   BlueButton,
-  TransparentButton
+
 } = Styled
 
 const resolveButton = (props: IButtonProps, type?: ButtonType) => {
@@ -48,7 +48,7 @@ const resolveButton = (props: IButtonProps, type?: ButtonType) => {
       return <BlueButton {...props}/>
     }
     case ButtonTypeEnum.transparent: {
-      return <TransparentButton {...props}/>
+      return <BlueButton {...props}/>
     }
     default:
       return <StyledButton {...props}/>
@@ -121,10 +121,10 @@ const Button: FC<IButtonProps> = (
   }, [icon, children, loading]);
 
   const buttonProps = {
+    ...props,
     className,
     children: content,
     onClick: onClickEvent,
-    ...props,
   }
 
   return (
