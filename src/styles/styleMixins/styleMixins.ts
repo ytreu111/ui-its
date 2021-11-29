@@ -1,18 +1,19 @@
 import * as d3 from 'd3';
 import * as CSS from 'csstype';
 import { ThemedStyledProps } from 'styled-components';
+import { ThemeI } from "styles/theme/model/ThemeI";
 
 type SizeType = 'large' | 'default' | 'small' | 'extraSmall';
 
 type TitleType = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-const defaultTextStyle = (props: ThemedStyledProps<any, any>, size: SizeType = 'default') => `
+const defaultTextStyle = (props: ThemedStyledProps<any, ThemeI>, size: SizeType = 'default') => `
   font-weight: 600;
   font-size: ${props.theme.fontSettings[size]};
   line-height: 140%;
 `;
 
-const defaultTitleStyle = (props: ThemedStyledProps<any, any>, title: TitleType) => {
+const defaultTitleStyle = (props: ThemedStyledProps<any, ThemeI>, title: TitleType) => {
   switch (title) {
     case 1: {
       return `
@@ -67,10 +68,30 @@ const defaultTitleStyle = (props: ThemedStyledProps<any, any>, title: TitleType)
 };
 
 const opacityColor = (color: CSS.Property.Color, val: number) => `
-    ${d3.rgb(color).copy({ opacity: val })}
+    ${d3.rgb(color).copy({opacity: val})}
+`;
+
+const addMarginsProps = (props: ThemedStyledProps<any, ThemeI>) => `
+    margin: ${props.m ?? ''};
+    margin-top: ${props.mt ?? ''};
+    margin-bottom: ${props.mb ?? ''};
+    margin-left: ${props.ml ?? ''};
+    margin-right: ${props.mr ?? ''};
+`;
+
+const addPaddingsProps = (props: ThemedStyledProps<any, ThemeI>) => `
+    padding: ${props.p ?? ''};
+    padding-top: ${props.pt ?? ''};
+    padding-bottom: ${props.pb ?? ''};
+    padding-left: ${props.pl ?? ''};
+    padding-right: ${props.pr ?? ''};
 `;
 
 export default {
+  offset: {
+    addMarginsProps,
+    addPaddingsProps,
+  },
   color: {
     opacityColor,
   },

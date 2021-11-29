@@ -1,16 +1,16 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
-import { Input as InputAntd } from 'antd';
-import { ThemeProvider } from 'styled-components';
-
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Styled } from './style/Input.styled';
+import { Input as InputAntd } from 'antd';
 import { InputProps } from './model/Input.model';
-import { theme } from 'styles';
+import { StarIcon } from "ui-its-icons";
+import theme from "../../styles/theme/theme";
 
 const {
   StyledInputContainer,
   StyledInputWrap,
   StyledInputEditablePlaceholder,
   StyledInputLabel,
+  OptionalInput,
 } = Styled;
 
 const Input: FC<InputProps> = (
@@ -23,24 +23,24 @@ const Input: FC<InputProps> = (
     label,
     icon,
     error,
-    allowClear,
     autoWidth,
     onChange,
     onBlur,
     onFocus,
     name,
+    width,
+    optional,
+    optionalIcon,
   }) => {
   const [visiblePlaceholder, setVisiblePlaceholder] = useState(false);
   const [inputValue, setInputValue] = useState(value);
 
-  const showClearButton = useMemo(
-    () => !!(allowClear && !!inputValue && !disabled),
-    [allowClear, disabled, inputValue],
-  );
+  useEffect(() => setInputValue(value ?? undefined), [value]);
 
   const placeholderText = useMemo(
-    () => (visiblePlaceholder ? editableHelp : placeholder)
-    , [editableHelp, placeholder, visiblePlaceholder]);
+    () => (visiblePlaceholder ? editableHelp : placeholder),
+    [editableHelp, placeholder, visiblePlaceholder],
+  );
 
   const classNameWrap = useMemo(() => {
     const className: Array<string> = [];
@@ -57,12 +57,28 @@ const Input: FC<InputProps> = (
 
     if (error) className.push('error');
 
-    if (showClearButton) className.push('clear');
-
     if (disabled) className.push('disabled');
 
+    if (optional) className.push('optional')
+
     return className.join(' ');
-  }, [autoWidth, disabled, error, icon, inputValue, showClearButton, small, visiblePlaceholder]);
+  }, [autoWidth, disabled, error, icon, inputValue, optional, small, visiblePlaceholder]);
+
+  const optionalButton = useMemo(() => {
+    const icon = optionalIcon ? optionalIcon : <StarIcon/>;
+    const iconColor = error ? theme.colors.red_500 : theme.colors.blue_500;
+
+    return (
+      <OptionalInput
+        p={0}
+        iconMargin={0}
+        icon={icon}
+        type={'transparent'}
+        iconColor={iconColor}
+        onClick={optional}
+      />
+    )
+  }, [error, optional, optionalIcon])
 
   const onFocusInput = useCallback(() => {
     setVisiblePlaceholder(true);
@@ -74,30 +90,32 @@ const Input: FC<InputProps> = (
     if (onBlur) onBlur();
   }, [onBlur]);
 
-  const onChangeInput = useCallback((e) => {
-    setInputValue(e.currentTarget.value);
-    if (onChange) onChange(e.currentTarget.value);
-  }, [onChange]);
+  const onChangeInput = useCallback(
+    (e) => {
+      setInputValue(e.currentTarget.value);
+      if (onChange) onChange(e.currentTarget.value);
+    },
+    [onChange],
+  );
 
   return (
-    <ThemeProvider theme={theme}>
-      <StyledInputContainer>
-        <StyledInputWrap className={classNameWrap}>
-          {!small && <StyledInputEditablePlaceholder>{placeholder}</StyledInputEditablePlaceholder>}
-          <InputAntd
-            onFocus={onFocusInput}
-            onBlur={onBlurInput}
-            disabled={disabled}
-            prefix={icon}
-            value={inputValue}
-            placeholder={placeholderText}
-            onChange={onChangeInput}
-            name={name}
-          />
-        </StyledInputWrap>
-        {label && <StyledInputLabel>{label}</StyledInputLabel>}
-      </StyledInputContainer>
-    </ThemeProvider>
+    <StyledInputContainer>
+      <StyledInputWrap className={classNameWrap} width={width}>
+        {!small && <StyledInputEditablePlaceholder>{placeholder}</StyledInputEditablePlaceholder>}
+        <InputAntd
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
+          disabled={disabled}
+          prefix={icon}
+          value={inputValue}
+          placeholder={placeholderText}
+          onChange={onChangeInput}
+          name={name}
+        />
+        {optional && optionalButton}
+      </StyledInputWrap>
+      {label && <StyledInputLabel>{label}</StyledInputLabel>}
+    </StyledInputContainer>
   );
 };
 

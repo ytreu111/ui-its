@@ -104,7 +104,7 @@ const StyledButton = styled.button<IButtonProps>`
   & svg {
     ${(props) => parseIconSize(props)};
     color: ${(props) => props.iconColor};
-    margin-right: ${(props) => props.iconMargin ? `${props.iconMargin}px` : '8px'};
+    margin-right: ${(props) => props.iconMargin !== undefined ? `${props.iconMargin}px` : '8px'};
     margin-bottom: -1px;
     margin-top: -1px;
   }
@@ -146,6 +146,10 @@ const StyledButton = styled.button<IButtonProps>`
     background-color: ${(props) => opacityColor(props.theme.colors.white, 0.5)};
   }
 `;
+
+const TransparentButton = styled(StyledButton)`
+ background: transparent;
+`
 
 const PrimaryButton = styled(StyledButton)`
   background: ${(props) => props.theme.colors.blue_500};
@@ -447,4 +451,5 @@ export const Styled = {
   BlueButton,
   LoadingIconWrap,
   TextWrap,
+  TransparentButton,
 }

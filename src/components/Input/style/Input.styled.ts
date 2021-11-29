@@ -1,22 +1,25 @@
 import styled from 'styled-components/macro';
-import { styleMixins } from 'styles';
-
-const { defaultTextStyle } = styleMixins.text;
+import Button from "components/Button/Button";
 
 const StyledInputContainer = styled.div`
-  width: 100%;
-  max-width: 306px;
+  & * {
+    box-sizing: border-box;
+  }
 `;
 
 const StyledInputLabel = styled.span`
-  ${(props) => defaultTextStyle(props, 'small')}
   margin-top: 4px;
-  color: ${(props) => props.theme.colors.gray_800};
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 140%;
+  color: #6A7B9B;
 `;
 
 const StyledInputEditablePlaceholder = styled.span`
-  ${(props) => defaultTextStyle(props)}
-  color: ${(props) => props.theme.colors.gray_800};
+  color: #6A7B9B;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 140%;
   position: absolute;
   left: 16px;
   top: 17px;
@@ -25,30 +28,48 @@ const StyledInputEditablePlaceholder = styled.span`
   user-select: none;
   pointer-events: none;
   transition: all 0.2s ease;
+  width: calc(100% - 32px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
-const StyledInputWrap = styled.div`
+const OptionalInput = styled(Button)`
+  position: absolute;
+  height: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 18px;
+`
+
+const StyledInputWrap = styled.div<{width?: number | string}>`
   overflow: hidden;
   position: relative;
   height: 56px;
   width: 100%;
-  border-radius: ${(props) => props.theme.decoration.defaultBorderRadius};
-  background: ${(props) => props.theme.colors.gray_200};
+  cursor: text;
+  max-width: ${(props) => props.width
+          ? typeof props.width === "number" ? `${props.width}px` : props.width
+          : '306px'};
+  border-radius: 8px;
+  background: #f1f3f6;
   border: 2px solid transparent;
   display: flex;
 
   &:hover {
-    border: 2px solid ${(props) => props.theme.colors.blue_500};
+    border: 2px solid #2F80ED;
   }
 
   & .ant-input {
-    ${(props) => defaultTextStyle(props)}
     width: 100%;
     height: 100%;
     background: transparent;
     border: none;
-    color: ${(props) => props.theme.colors.gray_1000};
-    padding: 26px 40px 6px 16px;
+    color: #35446F;
+    padding: 26px 16px 6px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 140%;
     box-shadow: none;
     outline: none;
 
@@ -59,74 +80,75 @@ const StyledInputWrap = styled.div`
     &::placeholder {
       color: transparent;
     }
-
-  }
-
-  & .ant-input-affix-wrapper {
-    width: 100%;
   }
 
   &.small {
     height: 40px;
-    max-width: 184px;
 
     & .ant-input {
       padding: 11px 14px;
 
       &::placeholder {
-        color: ${(props) => props.theme.colors.gray_800};
+        color: #6A7B9B;
       }
     }
-
   }
 
   &.focus {
-    border-color: ${(props) => props.theme.colors.blue_500};
-    background: ${(props) => props.theme.colors.white};
+    border-color: #2F80ED;
 
     & .ant-input::placeholder {
-      color: ${(props) => props.theme.colors.gray_600};
+      color: #c1cbd8;
     }
   }
 
   &.placeholder_top {
     & ${StyledInputEditablePlaceholder} {
-      font-size: ${(props) => props.theme.fontSettings.small};
-      color: ${(props) => props.theme.colors.blue_500};
+      font-size: 13px;
+      color: #2F80ED;
       transform: translateY(-10px);
     }
   }
 
   &.icon {
-    & ${StyledInputEditablePlaceholder} {
-      left: 52px;
+
+    & .ant-input-affix-wrapper {
+      width: 100%;
     }
 
-    & svg {
-      width: 20px;
-      height: 20px;
+    & ${StyledInputEditablePlaceholder} {
+      left: 52px;
+      width: calc(100% - 68px);
     }
 
     & .ant-input-prefix {
-      position: absolute;
       left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: ${(props) => props.theme.colors.blue_500};
+      position: absolute;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      color: #2F80ED;
     }
 
     & .ant-input {
       padding-left: 52px;
     }
   }
+  
+  &.optional {
+
+    & .ant-input{
+      padding-right: 46px;
+    }
+  }
 
   &.error {
-    border-color: ${(props) => props.theme.colors.red_500};
+    border-color: #EB5757;
 
-    ${StyledInputEditablePlaceholder},
-    ${StyledInputLabel},
-    & .ant-input-prefix {
-      color: ${(props) => props.theme.colors.red_500};
+    & .ant-input-prefix,
+    & ${StyledInputEditablePlaceholder},
+    & + ${StyledInputLabel} {
+      color: #EB5757;
     }
   }
 
@@ -137,15 +159,17 @@ const StyledInputWrap = styled.div`
   }
 
   &.disabled {
-    background: ${(props) => props.theme.colors.gray_200};
+    background: #f1f3f6;
     border-color: transparent;
 
+    & .ant-input-prefix,
     ${StyledInputEditablePlaceholder} {
-      color: ${(props) => props.theme.colors.gray_600};
+      color: #c1cbd8;
     }
   }
 
   &.auto {
+    width: 100%;
     max-width: 100%;
   }
 `;
@@ -154,5 +178,6 @@ export const Styled = {
   StyledInputContainer,
   StyledInputLabel,
   StyledInputWrap,
+  OptionalInput,
   StyledInputEditablePlaceholder,
 };

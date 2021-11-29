@@ -10,10 +10,13 @@ const theme: ThemeI = {
   decoration: {
     largeBorderRadiusOnlyTop: '16px 16px 0 0',
     defaultBorderRadiusOnlyTop: '8px 8px 0 0',
+    smallBorderRadiusOnlyTop: '4px 4px 0 0',
     largeBorderRadiusOnlyBottom: '0 0 16px 16px',
     defaultBorderRadiusOnlyBottom: '0 0 8px 8px',
+    smallBorderRadiusOnlyBottom: '0 0 4px 4px',
     largeBorderRadius: '16px',
     defaultBorderRadius: '8px',
+    smallBorderRadius: '4px',
     defaultBackgroundFilter: 'blur(18px)',
     smallBackgroundFilter: 'blur(16px)',
     defaultBoxShadow: '0px 2px 8px rgba(107, 138, 228, 0.12)',

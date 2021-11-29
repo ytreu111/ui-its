@@ -1,18 +1,25 @@
-import { PropsWithChildren } from "react";
-import * as CSS from "csstype";
+import { ReactNode } from "react";
+import CSS from "csstype";
 
-export interface IButtonProps extends PropsWithChildren<any> {
+import IPadding from "types/interface/IPadding";
+import IMargin from "types/interface/IMargin";
+
+export interface IButtonProps extends IPadding, IMargin{
   type?: ButtonType;
   size?: SizeType;
   disabled?: boolean;
   style?: StyleType;
-  icon?: JSX.Element
+  icon?: ReactNode;
   iconSize?: IIconSize | number;
   iconColor?: CSS.Property.Color;
   iconMargin?: number;
   loading?: boolean;
   onClick?: (e: MouseEvent) => void;
   clickEffect?: boolean;
+  rounded?: boolean;
+  children?: ReactNode;
+  fontSize?: CSS.Property.FontSize;
+  width?: CSS.Property.Width;
 }
 
 interface IIconSize {
@@ -29,6 +36,7 @@ export enum ButtonTypeEnum {
   purple = 'purple',
   magenta = 'magenta',
   blue = 'blue',
+  transparent = 'transparent',
 }
 
 export enum ButtonSizeEnum {
