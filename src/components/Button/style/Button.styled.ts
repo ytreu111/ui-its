@@ -11,7 +11,6 @@ const {defaultTitleStyle} = styleMixins.text;
 const {opacityColor} = styleMixins.color;
 
 const parseIconSize = (props: any) => {
-  console.log(props)
   const iconSize = props.iconSize;
   let width: CSS.Property.Width = '20px';
   let height: CSS.Property.Height = '20px';
@@ -90,6 +89,10 @@ const StyledButton = styled.button<PropsWithChildren<any>>`
     border: 2px solid transparent;
   }
 
+  &.transparent {
+    background: transparent !important;
+  }
+
   &.small {
     padding: 5px;
     height: 28px;
@@ -148,10 +151,6 @@ const StyledButton = styled.button<PropsWithChildren<any>>`
   }
 `;
 
-const TransparentButton = styled(StyledButton)`
- background: transparent;
-`
-
 const PrimaryButton = styled(StyledButton)`
   background: ${(props) => props.theme.colors.blue_500};
   color: ${(props) => props.theme.colors.white};
@@ -185,6 +184,10 @@ const PrimaryButton = styled(StyledButton)`
       border-color: ${(props) => props.theme.colors.blue_300};
       color: ${(props) => props.theme.colors.blue_300};
     }
+  }
+
+  &.transparent {
+    color: ${(props) => props.theme.colors.blue_500};
   }
 `
 
@@ -222,6 +225,10 @@ const DangerButton = styled(StyledButton)`
       color: ${(props) => props.theme.colors.red_300};
     }
   }
+
+  &.transparent {
+    color: ${(props) => props.theme.colors.red_500};
+  }
 `
 
 const OrangeButton = styled(StyledButton)`
@@ -257,6 +264,10 @@ const OrangeButton = styled(StyledButton)`
       border-color: ${(props) => props.theme.colors.orange_300};
       color: ${(props) => props.theme.colors.orange_300};
     }
+  }
+
+  &.transparent {
+    color: ${(props) => props.theme.colors.orange_500};
   }
 `
 
@@ -294,6 +305,10 @@ const YellowButton = styled(StyledButton)`
       color: ${(props) => props.theme.colors.yellow_300};
     }
   }
+
+  &.transparent {
+    color: ${(props) => props.theme.colors.yellow_500};
+  }
 `
 
 const GreenButton = styled(StyledButton)`
@@ -329,6 +344,10 @@ const GreenButton = styled(StyledButton)`
       border-color: ${(props) => props.theme.colors.green_300};
       color: ${(props) => props.theme.colors.green_300};
     }
+  }
+
+  &.transparent {
+    color: ${(props) => props.theme.colors.green_500};
   }
 `
 
@@ -366,6 +385,10 @@ const PurpleButton = styled(StyledButton)`
       color: ${(props) => props.theme.colors.purple_300};
     }
   }
+
+  &.transparent {
+    color: ${(props) => props.theme.colors.purple_500};
+  }
 `
 
 const MagentaButton = styled(StyledButton)`
@@ -402,6 +425,10 @@ const MagentaButton = styled(StyledButton)`
       color: ${(props) => props.theme.colors.magenta_300};
     }
   }
+
+  &.transparent {
+    color: ${(props) => props.theme.colors.magenta_500};
+  }
 `
 
 const BlueButton = styled(StyledButton)`
@@ -437,6 +464,10 @@ const BlueButton = styled(StyledButton)`
       border-color: ${(props) => props.theme.colors.cyan_300};
       color: ${(props) => props.theme.colors.cyan_300};
     }
+  }
+
+  &.transparent {
+    color: ${(props) => props.theme.colors.cyan_500};
   }
 `
 

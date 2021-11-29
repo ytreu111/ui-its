@@ -2,7 +2,13 @@ import React, { FC, useCallback, useMemo } from "react";
 import { LoadingIcon } from "ui-its-icons";
 import { ThemeProvider } from "styled-components";
 
-import { ButtonSizeEnum, ButtonStyle, ButtonType, ButtonTypeEnum, IButtonProps } from "./model/Button.model";
+import {
+  ButtonSizeEnum,
+  ButtonStyle,
+  ButtonType,
+  ButtonTypeEnum,
+  IButtonProps,
+} from "./model/Button.model";
 import { Styled } from "./style/Button.styled";
 import theme from "styles/theme/theme";
 
@@ -18,7 +24,6 @@ const {
   PurpleButton,
   MagentaButton,
   BlueButton,
-
 } = Styled
 
 const resolveButton = (props: IButtonProps, type?: ButtonType) => {
@@ -45,9 +50,6 @@ const resolveButton = (props: IButtonProps, type?: ButtonType) => {
       return <MagentaButton {...props}/>
     }
     case ButtonTypeEnum.blue: {
-      return <BlueButton {...props}/>
-    }
-    case ButtonTypeEnum.transparent: {
       return <BlueButton {...props}/>
     }
     default:

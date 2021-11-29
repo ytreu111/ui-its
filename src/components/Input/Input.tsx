@@ -1,9 +1,11 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { Styled } from './style/Input.styled';
+import { EyeIcon, EyeInvisibleIcon, StarIcon } from "ui-its-icons";
 import { Input as InputAntd } from 'antd';
-import { InputProps } from './model/Input.model';
-import { StarIcon } from "ui-its-icons";
-import theme from "../../styles/theme/theme";
+
+import { Styled } from './style/Input.styled';
+import { InputProps, InputTypeEnum } from './model/Input.model';
+import theme from "styles/theme/theme";
+import { ThemeProvider } from "styled-components";
 
 const {
   StyledInputContainer,
@@ -31,6 +33,7 @@ const Input: FC<InputProps> = (
     width,
     optional,
     optionalIcon,
+    type,
   }) => {
   const [visiblePlaceholder, setVisiblePlaceholder] = useState(false);
   const [inputValue, setInputValue] = useState(value);
@@ -65,20 +68,18 @@ const Input: FC<InputProps> = (
   }, [autoWidth, disabled, error, icon, inputValue, optional, small, visiblePlaceholder]);
 
   const optionalButton = useMemo(() => {
-    const icon = optionalIcon ? optionalIcon : <StarIcon/>;
-    const iconColor = error ? theme.colors.red_500 : theme.colors.blue_500;
+    if (optional) {
+      const icon = optionalIcon ? optionalIcon : <StarIcon/>;
 
-    return (
-      <OptionalInput
-        p={0}
-        iconMargin={0}
-        icon={icon}
-        type={'transparent'}
-        iconColor={iconColor}
-        onClick={optional}
-      />
-    )
-  }, [error, optional, optionalIcon])
+      return (
+        <OptionalInput onClick={optional}>
+          {icon}
+        </OptionalInput>
+      )
+    }
+
+    return null;
+  }, [optional, optionalIcon])
 
   const onFocusInput = useCallback(() => {
     setVisiblePlaceholder(true);
@@ -90,32 +91,55 @@ const Input: FC<InputProps> = (
     if (onBlur) onBlur();
   }, [onBlur]);
 
-  const onChangeInput = useCallback(
-    (e) => {
-      setInputValue(e.currentTarget.value);
-      if (onChange) onChange(e.currentTarget.value);
-    },
-    [onChange],
-  );
+  const onChangeInput = useCallback((e) => {
+    setInputValue(e.currentTarget.value);
+    if (onChange) onChange(e.currentTarget.value);
+  }, [onChange]);
 
-  return (
-    <StyledInputContainer>
-      <StyledInputWrap className={classNameWrap} width={width}>
-        {!small && <StyledInputEditablePlaceholder>{placeholder}</StyledInputEditablePlaceholder>}
-        <InputAntd
+  const input = useMemo(() => {
+    if (type === InputTypeEnum.password) {
+      return (
+        <InputAntd.Password
           onFocus={onFocusInput}
           onBlur={onBlurInput}
           disabled={disabled}
-          prefix={icon}
           value={inputValue}
           placeholder={placeholderText}
           onChange={onChangeInput}
           name={name}
+          prefix={icon}
+          iconRender={(visible) => (visible ? <EyeInvisibleIcon/> : <EyeIcon/>)}
         />
-        {optional && optionalButton}
-      </StyledInputWrap>
-      {label && <StyledInputLabel>{label}</StyledInputLabel>}
-    </StyledInputContainer>
+      )
+    } else {
+      return (
+        <>
+          <InputAntd
+            onFocus={onFocusInput}
+            onBlur={onBlurInput}
+            disabled={disabled}
+            prefix={icon}
+            value={inputValue}
+            placeholder={placeholderText}
+            onChange={onChangeInput}
+            name={name}
+          />
+          {optionalButton}
+        </>
+      )
+    }
+  }, [disabled, icon, inputValue, name, onBlurInput, onChangeInput, onFocusInput, optionalButton, placeholderText, type])
+
+  return (
+    <ThemeProvider theme={theme}>
+      <StyledInputContainer>
+        <StyledInputWrap className={classNameWrap} width={width}>
+          {!small && <StyledInputEditablePlaceholder>{placeholder}</StyledInputEditablePlaceholder>}
+          {input}
+        </StyledInputWrap>
+        {label && <StyledInputLabel>{label}</StyledInputLabel>}
+      </StyledInputContainer>
+    </ThemeProvider>
   );
 };
 

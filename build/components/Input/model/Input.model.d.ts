@@ -16,4 +16,9 @@ export interface InputProps {
     width?: number | string;
     optional?: () => void;
     optionalIcon?: ReactNode;
+    type?: InputType;
 }
+export declare enum InputTypeEnum {
+    password = "password"
+}
+export declare type InputType = keyof typeof InputTypeEnum;

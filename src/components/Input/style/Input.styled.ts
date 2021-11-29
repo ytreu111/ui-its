@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import Button from "components/Button/Button";
+import { styleMixins } from "styles";
+
+const {defaultTitleStyle} = styleMixins.text;
 
 const StyledInputContainer = styled.div`
   display: flex;
@@ -12,17 +14,13 @@ const StyledInputContainer = styled.div`
 
 const StyledInputLabel = styled.span`
   margin-top: 4px;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 140%;
-  color: #6A7B9B;
+  color: ${(props) => props.theme.colors.gray_800};
+  ${(props) => defaultTitleStyle(props, 7)}
 `;
 
 const StyledInputEditablePlaceholder = styled.span`
-  color: #6A7B9B;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 140%;
+  color: ${(props) => props.theme.colors.gray_800};
+  ${(props) => defaultTitleStyle(props, 6)}
   position: absolute;
   left: 16px;
   top: 17px;
@@ -37,12 +35,19 @@ const StyledInputEditablePlaceholder = styled.span`
   overflow: hidden;
 `;
 
-const OptionalInput = styled(Button)`
+const OptionalInput = styled.div`
   position: absolute;
   height: 20px;
   top: 50%;
   transform: translateY(-50%);
   right: 18px;
+  color: ${(props) => props.theme.colors.blue_500};
+  cursor: pointer;
+  
+  & svg{
+    width: 20px;
+    height: 20px;
+  }
 `
 
 const StyledInputWrap = styled.div<{width?: number | string}>`
@@ -55,12 +60,12 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
           ? typeof props.width === "number" ? `${props.width}px` : props.width
           : '306px'};
   border-radius: 8px;
-  background: #f1f3f6;
+  background: ${(props) => props.theme.colors.gray_200};
   border: 2px solid transparent;
   display: flex;
 
   &:hover {
-    border: 2px solid #2F80ED;
+    border: 2px solid ${(props) => props.theme.colors.blue_500};
   }
 
   & .ant-input {
@@ -84,6 +89,23 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
       color: transparent;
     }
   }
+  
+  & .ant-input-password{
+    width: 100%;
+    
+    & .ant-input-suffix{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 18px;
+      color: ${(props) => props.theme.colors.blue_500};
+      
+      & svg{
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
 
   &.small {
     height: 40px;
@@ -92,23 +114,23 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
       padding: 11px 14px;
 
       &::placeholder {
-        color: #6A7B9B;
+        color: ${(props) => props.theme.colors.gray_800};
       }
     }
   }
 
   &.focus {
-    border-color: #2F80ED;
+    border-color: ${(props) => props.theme.colors.blue_500};
 
     & .ant-input::placeholder {
-      color: #c1cbd8;
+      color: ${(props) => props.theme.colors.gray_600};
     }
   }
 
   &.placeholder_top {
     & ${StyledInputEditablePlaceholder} {
-      font-size: 13px;
-      color: #2F80ED;
+      font-size: ${(props) => props.theme.fontSettings.small}
+      color: ${(props) => props.theme.colors.blue_500};
       transform: translateY(-10px);
     }
   }
@@ -130,7 +152,7 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
       height: 100%;
       display: flex;
       align-items: center;
-      color: #2F80ED;
+      color: ${(props) => props.theme.colors.blue_500};
     }
 
     & .ant-input {
@@ -146,12 +168,13 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
   }
 
   &.error {
-    border-color: #EB5757;
+    border-color: ${(props) => props.theme.colors.red_500};
 
     & .ant-input-prefix,
     & ${StyledInputEditablePlaceholder},
+    & ${OptionalInput},
     & + ${StyledInputLabel} {
-      color: #EB5757;
+      color: ${(props) => props.theme.colors.red_500};
     }
   }
 
@@ -162,12 +185,12 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
   }
 
   &.disabled {
-    background: #f1f3f6;
+    background: ${(props) => props.theme.colors.gray_200};
     border-color: transparent;
 
     & .ant-input-prefix,
     ${StyledInputEditablePlaceholder} {
-      color: #c1cbd8;
+      color: ${(props) => props.theme.colors.gray_600};
     }
   }
 

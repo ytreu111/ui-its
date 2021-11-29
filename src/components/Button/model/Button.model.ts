@@ -50,6 +50,7 @@ export enum ButtonStyle {
   // stroke = 'stroke',
   default = 'default',
   translucent = 'translucent',
+  transparent = 'transparent',
 }
 
 export type ButtonType = keyof typeof ButtonTypeEnum;

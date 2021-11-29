@@ -41,7 +41,8 @@ export declare enum ButtonSizeEnum {
 }
 export declare enum ButtonStyle {
     default = "default",
-    translucent = "translucent"
+    translucent = "translucent",
+    transparent = "transparent"
 }
 export declare type ButtonType = keyof typeof ButtonTypeEnum;
 export declare type SizeType = keyof typeof ButtonSizeEnum;

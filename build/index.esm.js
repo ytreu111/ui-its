@@ -1,768 +1,17 @@
-import { jsxs, Fragment, jsx } from 'react/jsx-runtime';
-import { useCallback, useMemo, useState, useEffect } from 'react';
-import styled, { keyframes, ThemeProvider } from 'styled-components';
-import { LoadingIcon, StarIcon } from 'ui-its-icons';
-import * as d3 from 'd3';
-import { Input as Input$1 } from 'antd';
-
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-var ButtonTypeEnum;
-(function (ButtonTypeEnum) {
-    ButtonTypeEnum["primary"] = "primary";
-    ButtonTypeEnum["danger"] = "danger";
-    ButtonTypeEnum["orange"] = "orange";
-    ButtonTypeEnum["yellow"] = "yellow";
-    ButtonTypeEnum["green"] = "green";
-    ButtonTypeEnum["purple"] = "purple";
-    ButtonTypeEnum["magenta"] = "magenta";
-    ButtonTypeEnum["blue"] = "blue";
-    ButtonTypeEnum["transparent"] = "transparent";
-})(ButtonTypeEnum || (ButtonTypeEnum = {}));
-var ButtonSizeEnum;
-(function (ButtonSizeEnum) {
-    ButtonSizeEnum["large"] = "large";
-    ButtonSizeEnum["default"] = "default";
-    ButtonSizeEnum["small"] = "small";
-})(ButtonSizeEnum || (ButtonSizeEnum = {}));
-var ButtonStyle;
-(function (ButtonStyle) {
-    //TODO Временно убрано по просьбе дизайнеров, тк оно не используется в системе
-    // stroke = 'stroke',
-    ButtonStyle["default"] = "default";
-    ButtonStyle["translucent"] = "translucent";
-})(ButtonStyle || (ButtonStyle = {}));
-
-const theme = {
-    fontSettings: {
-        large: '16px',
-        default: '14px',
-        small: '13px',
-        extraSmall: '12px',
-    },
-    decoration: {
-        largeBorderRadiusOnlyTop: '16px 16px 0 0',
-        defaultBorderRadiusOnlyTop: '8px 8px 0 0',
-        smallBorderRadiusOnlyTop: '4px 4px 0 0',
-        largeBorderRadiusOnlyBottom: '0 0 16px 16px',
-        defaultBorderRadiusOnlyBottom: '0 0 8px 8px',
-        smallBorderRadiusOnlyBottom: '0 0 4px 4px',
-        largeBorderRadius: '16px',
-        defaultBorderRadius: '8px',
-        smallBorderRadius: '4px',
-        defaultBackgroundFilter: 'blur(18px)',
-        smallBackgroundFilter: 'blur(16px)',
-        defaultBoxShadow: '0px 2px 8px rgba(107, 138, 228, 0.12)',
-        greenBoxShadow: '0px 18px 40px rgba(39, 174, 96, 0.08)',
-        orangeBoxShadow: '0px 18px 40px rgba(242, 153, 74, 0.08)',
-        redBoxShadow: '0px 18px 40px rgba(235, 87, 87, 0.08)',
-        primaryBoxShadow: '0px -18px 40px rgba(107, 138, 228, 0.02), 0px 18px 40px rgba(107, 138, 228, 0.08)',
-    },
-    colors: {
-        gray_1000: '#1A2138',
-        gray_800: '#6A7B9B',
-        gray_600: '#C1CBD8',
-        gray_200: '#F1F3F6',
-        white: '#FFFFFF',
-        red_600: '#CA3F4B',
-        red_500: '#EB5757',
-        red_300: '#F7BABA',
-        red_opacity: 'rgba(235, 87, 87, 0.08)',
-        orange_600: '#D07636',
-        orange_500: '#F2994A',
-        orange_300: '#FBCE92',
-        orange_opacity: 'rgba(242, 153, 74, 0.08)',
-        yellow_600: '#D0A637',
-        yellow_500: '#F2C94C',
-        yellow_300: '#FBE693',
-        yellow_opacity: 'rgba(242, 201, 76, 0.08)',
-        verdant_600: '#18814F',
-        verdant_500: '#219653',
-        verdant_300: '#76DF8E',
-        verdant_opacity: 'rgba(33, 150, 83, 0.08)',
-        green_600: '#1C955B',
-        green_500: '#27AE60',
-        green_300: '#7BE693',
-        green_opacity: 'rgba(39, 174, 96, 0.08)',
-        eco_600: '#51B283',
-        eco_500: '#6FCF97',
-        eco_300: '#ADF0BC',
-        eco_opacity: 'rgba(111, 207, 151, 0.08)',
-        blue_600: '#2263CB',
-        blue_500: '#2F80ED',
-        blue_300: '#81BFF9',
-        blue_opacity: 'rgba(47, 128, 237, 0.08)',
-        cyan_600: '#207ABC',
-        cyan_500: '#2D9CDB',
-        cyan_300: '#B3E1FD',
-        cyan_opacity: 'rgba(45, 156, 219, 0.08)',
-        azure_600: '#3EA2D0',
-        azure_500: '#56CCF2',
-        azure_300: '#99F1FB',
-        azure_opacity: 'rgba(86, 204, 242, 0.08)',
-        purple_600: '#793BC0',
-        purple_500: '#9B51E0',
-        purple_300: '#D197F5',
-        purple_opacity: 'rgba(155, 81, 224, 0.08)',
-        violet_600: '#954EBA',
-        violet_500: '#BB6BD9',
-        violet_300: '#E9A9F3',
-        violet_opacity: 'rgba(187, 107, 217, 0.08)',
-        magenta_600: '#C03BA0',
-        magenta_500: '#E051AF',
-        magenta_300: '#F597C2',
-        magenta_opacity: 'rgba(224, 81, 175, 0.08)',
-    },
-};
-
-const defaultTextStyle = (props, size = 'default') => `
-  font-weight: 600;
-  font-size: ${props.theme.fontSettings[size]};
-  line-height: 140%;
-`;
-const defaultTitleStyle$1 = (props, title) => {
-    switch (title) {
-        case 1: {
-            return `
-        font-weight: bold;
-        font-size: 48px;
-        line-height: 59px;
-      `;
-        }
-        case 2: {
-            return `
-        font-weight: bold;
-        font-size: 36px;
-        line-height: 45px;
-      `;
-        }
-        case 3: {
-            return `
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 30px;
-      `;
-        }
-        case 4: {
-            return `
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 22px;
-      `;
-        }
-        case 5: {
-            return `
-        font-weight: bold;
-        font-size: ${props.theme.fontSettings.large};
-        line-height: 140%;
-      `;
-        }
-        case 6: {
-            return `
-        font-weight: bold;
-        font-size: ${props.theme.fontSettings.default};
-        line-height: 140%;
-      `;
-        }
-        case 7: {
-            return `
-        font-weight: bold;
-        font-size: ${props.theme.fontSettings.small};
-        line-height: 140%;
-      `;
-        }
-    }
-};
-const opacityColor$1 = (color, val) => `
-    ${d3.rgb(color).copy({ opacity: val })}
-`;
-const addMarginsProps$1 = (props) => {
-    var _a, _b, _c, _d, _e;
-    return `
-    margin: ${(_a = props.m) !== null && _a !== void 0 ? _a : ''};
-    margin-top: ${(_b = props.mt) !== null && _b !== void 0 ? _b : ''};
-    margin-bottom: ${(_c = props.mb) !== null && _c !== void 0 ? _c : ''};
-    margin-left: ${(_d = props.ml) !== null && _d !== void 0 ? _d : ''};
-    margin-right: ${(_e = props.mr) !== null && _e !== void 0 ? _e : ''};
-`;
-};
-const addPaddingsProps$1 = (props) => {
-    var _a, _b, _c, _d, _e;
-    return `
-    padding: ${(_a = props.p) !== null && _a !== void 0 ? _a : ''};
-    padding-top: ${(_b = props.pt) !== null && _b !== void 0 ? _b : ''};
-    padding-bottom: ${(_c = props.pb) !== null && _c !== void 0 ? _c : ''};
-    padding-left: ${(_d = props.pl) !== null && _d !== void 0 ? _d : ''};
-    padding-right: ${(_e = props.pr) !== null && _e !== void 0 ? _e : ''};
-`;
-};
-var styleMixins = {
-    offset: {
-        addMarginsProps: addMarginsProps$1,
-        addPaddingsProps: addPaddingsProps$1,
-    },
-    color: {
-        opacityColor: opacityColor$1,
-    },
-    text: {
-        defaultTextStyle,
-        defaultTitleStyle: defaultTitleStyle$1,
-    },
-};
-
-const { addPaddingsProps, addMarginsProps } = styleMixins.offset;
-const { defaultTitleStyle } = styleMixins.text;
-const { opacityColor } = styleMixins.color;
-const parseIconSize = (props) => {
-    console.log(props);
-    const iconSize = props.iconSize;
-    let width = '20px';
-    let height = '20px';
-    if (iconSize) {
-        if (typeof iconSize === 'object') {
-            width = iconSize.width;
-            height = iconSize.height;
-        }
-        else {
-            width = height = `${iconSize}px`;
-        }
-    }
-    return `
-    width: ${width};
-    height: ${height};
-  `;
-};
-const rotate = keyframes `
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-const wave = keyframes `
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-`;
-const LoadingIconWrap$1 = styled.div `
-  position: absolute;
-`;
-const TextWrap$1 = styled.div ``;
-const StyledButton$1 = styled.button `
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  transition: all 0.3s;
-  text-decoration: none;
-  outline: none;
-  box-sizing: border-box;
-  cursor: pointer;
-  position: relative;
-  height: 40px;
-
-  ${(props) => defaultTitleStyle(props, 7)}
-  ${(props) => props.fontSize ? 'font-size:' + props.fontSize + ';' : ''}
-
-  padding: 11px;
-  ${(props) => addMarginsProps(props)};
-
-  width: ${(props) => (props.width ? props.width : 'auto')};
-  border-radius: ${(props) => (props.rounded ? '50%' : props.theme.decoration.defaultBorderRadius)};
-
-  &.disabled {
-    pointer-events: none;
-  }
-
-  &.translucent {
-    backdrop-filter: ${(props) => props.theme.decoration.smallBackgroundFilter};
-  }
-
-  &.stroke {
-    background: white !important;
-    border: 2px solid transparent;
-  }
-
-  &.small {
-    padding: 5px;
-    height: 28px;
-  }
-
-  &.large {
-    height: 56px;
-    padding: 11px;
-    ${(props) => defaultTitleStyle(props, 5)}
-  }
-
-  ${(props) => addPaddingsProps(props)}
-  & svg {
-    ${(props) => parseIconSize(props)};
-    color: ${(props) => props.iconColor};
-    margin-right: ${(props) => props.iconMargin !== undefined ? `${props.iconMargin}px` : '8px'};
-    margin-bottom: -1px;
-    margin-top: -1px;
-  }
-
-  & * {
-    box-sizing: border-box;
-  }
-
-  &.loading {
-    & svg {
-      color: transparent;
-    }
-
-    & ${TextWrap$1} {
-      color: transparent;
-    }
-
-    & ${LoadingIconWrap$1} {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      & svg {
-        animation: ${rotate} 1.3s linear infinite;
-        color: inherit;
-        margin-right: 0;
-      }
-    }
-
-  }
-
-  & .wave {
-    position: absolute;
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ${wave} .6s linear;
-    background-color: ${(props) => opacityColor(props.theme.colors.white, 0.5)};
-  }
-`;
-styled(StyledButton$1) `
- background: transparent;
-`;
-const PrimaryButton$1 = styled(StyledButton$1) `
-  background: ${(props) => props.theme.colors.blue_500};
-  color: ${(props) => props.theme.colors.white};
-
-  &:hover {
-    background: ${(props) => props.theme.colors.blue_600};
-  }
-
-  &.disabled {
-    background: ${(props) => props.theme.colors.blue_300};
-  }
-
-  &.translucent {
-    background: ${(props) => opacityColor(props.theme.colors.blue_500, 0.08)};
-    color: ${(props) => props.theme.colors.blue_500};
-
-    &:hover {
-      background: ${(props) => opacityColor(props.theme.colors.blue_500, 0.16)};
-    }
-
-    &.disabled {
-      color: ${(props) => props.theme.colors.blue_300};
-    }
-  }
-
-  &.stroke {
-    border-color: ${(props) => props.theme.colors.blue_500};
-    color: ${(props) => props.theme.colors.blue_500};
-
-    &.disabled {
-      border-color: ${(props) => props.theme.colors.blue_300};
-      color: ${(props) => props.theme.colors.blue_300};
-    }
-  }
-`;
-const DangerButton$1 = styled(StyledButton$1) `
-  background: ${(props) => props.theme.colors.red_500};
-  color: ${(props) => props.theme.colors.white};
-
-  &:hover {
-    background: ${(props) => props.theme.colors.red_600};
-  }
-
-  &.disabled {
-    background: ${(props) => props.theme.colors.red_300};
-  }
-
-  &.translucent {
-    background: ${(props) => opacityColor(props.theme.colors.red_500, 0.08)};
-    color: ${(props) => props.theme.colors.red_500};
-
-    &:hover {
-      background: ${(props) => opacityColor(props.theme.colors.red_500, 0.16)};
-    }
-
-    &.disabled {
-      color: ${(props) => props.theme.colors.red_300};
-    }
-  }
-
-  &.stroke {
-    border-color: ${(props) => props.theme.colors.red_500};
-    color: ${(props) => props.theme.colors.red_500};
-
-    &.disabled {
-      border-color: ${(props) => props.theme.colors.red_300};
-      color: ${(props) => props.theme.colors.red_300};
-    }
-  }
-`;
-const OrangeButton$1 = styled(StyledButton$1) `
-  background: ${(props) => props.theme.colors.orange_500};
-  color: ${(props) => props.theme.colors.white};
-
-  &:hover {
-    background: ${(props) => props.theme.colors.orange_600};
-  }
-
-  &.disabled {
-    background: ${(props) => props.theme.colors.orange_300};
-  }
-
-  &.translucent {
-    background: ${(props) => opacityColor(props.theme.colors.orange_500, 0.08)};
-    color: ${(props) => props.theme.colors.orange_500};
-
-    &:hover {
-      background: ${(props) => opacityColor(props.theme.colors.orange_500, 0.16)};
-    }
-
-    &.disabled {
-      color: ${(props) => props.theme.colors.orange_300};
-    }
-  }
-
-  &.stroke {
-    border-color: ${(props) => props.theme.colors.orange_500};
-    color: ${(props) => props.theme.colors.orange_500};
-
-    &.disabled {
-      border-color: ${(props) => props.theme.colors.orange_300};
-      color: ${(props) => props.theme.colors.orange_300};
-    }
-  }
-`;
-const YellowButton$1 = styled(StyledButton$1) `
-  background: ${(props) => props.theme.colors.yellow_500};
-  color: ${(props) => props.theme.colors.white};
-
-  &:hover {
-    background: ${(props) => props.theme.colors.yellow_600};
-  }
-
-  &.disabled {
-    background: ${(props) => props.theme.colors.yellow_300};
-  }
-
-  &.translucent {
-    background: ${(props) => opacityColor(props.theme.colors.yellow_500, 0.08)};
-    color: ${(props) => props.theme.colors.yellow_500};
-
-    &:hover {
-      background: ${(props) => opacityColor(props.theme.colors.yellow_500, 0.16)};
-    }
-
-    &.disabled {
-      color: ${(props) => props.theme.colors.yellow_300};
-    }
-  }
-
-  &.stroke {
-    border-color: ${(props) => props.theme.colors.yellow_500};
-    color: ${(props) => props.theme.colors.yellow_500};
-
-    &.disabled {
-      border-color: ${(props) => props.theme.colors.yellow_300};
-      color: ${(props) => props.theme.colors.yellow_300};
-    }
-  }
-`;
-const GreenButton$1 = styled(StyledButton$1) `
-  background: ${(props) => props.theme.colors.green_500};
-  color: ${(props) => props.theme.colors.white};
-
-  &:hover {
-    background: ${(props) => props.theme.colors.green_600};
-  }
-
-  &.disabled {
-    background: ${(props) => props.theme.colors.green_300};
-  }
-
-  &.translucent {
-    background: ${(props) => opacityColor(props.theme.colors.green_500, 0.08)};
-    color: ${(props) => props.theme.colors.green_500};
-
-    &:hover {
-      background: ${(props) => opacityColor(props.theme.colors.green_500, 0.16)};
-    }
-
-    &.disabled {
-      color: ${(props) => props.theme.colors.green_300};
-    }
-  }
-
-  &.stroke {
-    border-color: ${(props) => props.theme.colors.green_500};
-    color: ${(props) => props.theme.colors.green_500};
-
-    &.disabled {
-      border-color: ${(props) => props.theme.colors.green_300};
-      color: ${(props) => props.theme.colors.green_300};
-    }
-  }
-`;
-const PurpleButton$1 = styled(StyledButton$1) `
-  background: ${(props) => props.theme.colors.purple_500};
-  color: ${(props) => props.theme.colors.white};
-
-  &:hover {
-    background: ${(props) => props.theme.colors.purple_600};
-  }
-
-  &.disabled {
-    background: ${(props) => props.theme.colors.purple_300};
-  }
-
-  &.translucent {
-    background: ${(props) => opacityColor(props.theme.colors.purple_500, 0.08)};
-    color: ${(props) => props.theme.colors.purple_500};
-
-    &:hover {
-      background: ${(props) => opacityColor(props.theme.colors.purple_500, 0.16)};
-    }
-
-    &.disabled {
-      color: ${(props) => props.theme.colors.purple_300};
-    }
-  }
-
-  &.stroke {
-    border-color: ${(props) => props.theme.colors.purple_500};
-    color: ${(props) => props.theme.colors.purple_500};
-
-    &.disabled {
-      border-color: ${(props) => props.theme.colors.purple_300};
-      color: ${(props) => props.theme.colors.purple_300};
-    }
-  }
-`;
-const MagentaButton$1 = styled(StyledButton$1) `
-  background: ${(props) => props.theme.colors.magenta_500};
-  color: ${(props) => props.theme.colors.white};
-
-  &:hover {
-    background: ${(props) => props.theme.colors.magenta_600};
-  }
-
-  &.disabled {
-    background: ${(props) => props.theme.colors.magenta_300};
-  }
-
-  &.translucent {
-    background: ${(props) => opacityColor(props.theme.colors.magenta_500, 0.08)};
-    color: ${(props) => props.theme.colors.magenta_500};
-
-    &:hover {
-      background: ${(props) => opacityColor(props.theme.colors.magenta_500, 0.16)};
-    }
-
-    &.disabled {
-      color: ${(props) => props.theme.colors.magenta_300};
-    }
-  }
-
-  &.stroke {
-    border-color: ${(props) => props.theme.colors.magenta_500};
-    color: ${(props) => props.theme.colors.magenta_500};
-
-    &.disabled {
-      border-color: ${(props) => props.theme.colors.magenta_300};
-      color: ${(props) => props.theme.colors.magenta_300};
-    }
-  }
-`;
-const BlueButton$1 = styled(StyledButton$1) `
-  background: ${(props) => props.theme.colors.cyan_500};
-  color: ${(props) => props.theme.colors.white};
-
-  &:hover {
-    background: ${(props) => props.theme.colors.cyan_600};
-  }
-
-  &.disabled {
-    background: ${(props) => props.theme.colors.cyan_300};
-  }
-
-  &.translucent {
-    background: ${(props) => opacityColor(props.theme.colors.cyan_500, 0.08)};
-    color: ${(props) => props.theme.colors.cyan_500};
-
-    &:hover {
-      background: ${(props) => opacityColor(props.theme.colors.cyan_500, 0.16)};
-    }
-
-    &.disabled {
-      color: ${(props) => props.theme.colors.cyan_300};
-    }
-  }
-
-  &.stroke {
-    border-color: ${(props) => props.theme.colors.cyan_500};
-    color: ${(props) => props.theme.colors.cyan_500};
-
-    &.disabled {
-      border-color: ${(props) => props.theme.colors.cyan_300};
-      color: ${(props) => props.theme.colors.cyan_300};
-    }
-  }
-`;
-const Styled$1 = {
-    StyledButton: StyledButton$1,
-    PrimaryButton: PrimaryButton$1,
-    DangerButton: DangerButton$1,
-    OrangeButton: OrangeButton$1,
-    YellowButton: YellowButton$1,
-    GreenButton: GreenButton$1,
-    PurpleButton: PurpleButton$1,
-    MagentaButton: MagentaButton$1,
-    BlueButton: BlueButton$1,
-    LoadingIconWrap: LoadingIconWrap$1,
-    TextWrap: TextWrap$1,
-};
-
-const { StyledButton, LoadingIconWrap, TextWrap, PrimaryButton, DangerButton, OrangeButton, YellowButton, GreenButton, PurpleButton, MagentaButton, BlueButton, } = Styled$1;
-const resolveButton = (props, type) => {
-    switch (type) {
-        case ButtonTypeEnum.primary: {
-            return jsx(PrimaryButton, Object.assign({}, props), void 0);
-        }
-        case ButtonTypeEnum.danger: {
-            return jsx(DangerButton, Object.assign({}, props), void 0);
-        }
-        case ButtonTypeEnum.orange: {
-            return jsx(OrangeButton, Object.assign({}, props), void 0);
-        }
-        case ButtonTypeEnum.yellow: {
-            return jsx(YellowButton, Object.assign({}, props), void 0);
-        }
-        case ButtonTypeEnum.green: {
-            return jsx(GreenButton, Object.assign({}, props), void 0);
-        }
-        case ButtonTypeEnum.purple: {
-            return jsx(PurpleButton, Object.assign({}, props), void 0);
-        }
-        case ButtonTypeEnum.magenta: {
-            return jsx(MagentaButton, Object.assign({}, props), void 0);
-        }
-        case ButtonTypeEnum.blue: {
-            return jsx(BlueButton, Object.assign({}, props), void 0);
-        }
-        case ButtonTypeEnum.transparent: {
-            return jsx(BlueButton, Object.assign({}, props), void 0);
-        }
-        default:
-            return jsx(StyledButton, Object.assign({}, props), void 0);
-    }
-};
-const Button = (_a) => {
-    var { disabled, style = ButtonStyle.default, type, icon, size = ButtonSizeEnum.default, loading, onClick, clickEffect = true, children } = _a, props = __rest(_a, ["disabled", "style", "type", "icon", "size", "loading", "onClick", "clickEffect", "children"]);
-    const onClickEffect = useCallback((event) => {
-        const button = event.currentTarget;
-        const circle = document.createElement("span");
-        const diameter = Math.max(button === null || button === void 0 ? void 0 : button.clientWidth, button === null || button === void 0 ? void 0 : button.clientHeight);
-        const radius = diameter / 2;
-        circle.style.width = circle.style.height = `${diameter}px`;
-        circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-        circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
-        circle.classList.add("wave");
-        const wave = button.querySelector(".wave");
-        if (wave) {
-            wave.remove();
-        }
-        button.appendChild(circle);
-    }, []);
-    const onClickEvent = useCallback((e) => {
-        if (!loading) {
-            if (clickEffect)
-                onClickEffect(e);
-            if (onClick)
-                onClick(e);
-        }
-    }, [clickEffect, onClickEffect, onClick, loading]);
-    const className = useMemo(() => {
-        const className = [];
-        if (disabled)
-            className.push('disabled');
-        if (style && type)
-            className.push(style);
-        if (size)
-            className.push(size);
-        if (loading)
-            className.push('loading');
-        return className.join(' ');
-    }, [disabled, loading, size, style, type]);
-    const content = useMemo(() => {
-        return (jsxs(Fragment, { children: [icon, jsx(TextWrap, { children: children }, void 0), loading && jsx(LoadingIconWrap, { children: jsx(LoadingIcon, {}, void 0) }, void 0)] }, void 0));
-    }, [icon, children, loading]);
-    const buttonProps = Object.assign(Object.assign({}, props), { className, children: content, onClick: onClickEvent });
-    return (jsx(ThemeProvider, Object.assign({ theme: theme }, { children: resolveButton(buttonProps, type) }), void 0));
-};
-
-const StyledInputContainer$1 = styled.div `
+import{jsx as e,jsxs as o,Fragment as r}from'react/jsx-runtime';import{useState as t,useEffect as n,useMemo as l,useCallback as a}from'react';import{StarIcon as c,EyeInvisibleIcon as i,EyeIcon as s,LoadingIcon as d}from'ui-its-icons';import{Input as p}from'antd';import h,{ThemeProvider as u,keyframes as g}from'styled-components';import*as m from'd3';const b={fontSettings:{large:'16px',default:'14px',small:'13px',extraSmall:'12px'},decoration:{largeBorderRadiusOnlyTop:'16px 16px 0 0',defaultBorderRadiusOnlyTop:'8px 8px 0 0',smallBorderRadiusOnlyTop:'4px 4px 0 0',largeBorderRadiusOnlyBottom:'0 0 16px 16px',defaultBorderRadiusOnlyBottom:'0 0 8px 8px',smallBorderRadiusOnlyBottom:'0 0 4px 4px',largeBorderRadius:'16px',defaultBorderRadius:'8px',smallBorderRadius:'4px',defaultBackgroundFilter:'blur(18px)',smallBackgroundFilter:'blur(16px)',defaultBoxShadow:'0px 2px 8px rgba(107, 138, 228, 0.12)',greenBoxShadow:'0px 18px 40px rgba(39, 174, 96, 0.08)',orangeBoxShadow:'0px 18px 40px rgba(242, 153, 74, 0.08)',redBoxShadow:'0px 18px 40px rgba(235, 87, 87, 0.08)',primaryBoxShadow:'0px -18px 40px rgba(107, 138, 228, 0.02), 0px 18px 40px rgba(107, 138, 228, 0.08)'},colors:{gray_1000:'#1A2138',gray_800:'#6A7B9B',gray_600:'#C1CBD8',gray_200:'#F1F3F6',white:'#FFFFFF',red_600:'#CA3F4B',red_500:'#EB5757',red_300:'#F7BABA',red_opacity:'rgba(235, 87, 87, 0.08)',orange_600:'#D07636',orange_500:'#F2994A',orange_300:'#FBCE92',orange_opacity:'rgba(242, 153, 74, 0.08)',yellow_600:'#D0A637',yellow_500:'#F2C94C',yellow_300:'#FBE693',yellow_opacity:'rgba(242, 201, 76, 0.08)',verdant_600:'#18814F',verdant_500:'#219653',verdant_300:'#76DF8E',verdant_opacity:'rgba(33, 150, 83, 0.08)',green_600:'#1C955B',green_500:'#27AE60',green_300:'#7BE693',green_opacity:'rgba(39, 174, 96, 0.08)',eco_600:'#51B283',eco_500:'#6FCF97',eco_300:'#ADF0BC',eco_opacity:'rgba(111, 207, 151, 0.08)',blue_600:'#2263CB',blue_500:'#2F80ED',blue_300:'#81BFF9',blue_opacity:'rgba(47, 128, 237, 0.08)',cyan_600:'#207ABC',cyan_500:'#2D9CDB',cyan_300:'#B3E1FD',cyan_opacity:'rgba(45, 156, 219, 0.08)',azure_600:'#3EA2D0',azure_500:'#56CCF2',azure_300:'#99F1FB',azure_opacity:'rgba(86, 204, 242, 0.08)',purple_600:'#793BC0',purple_500:'#9B51E0',purple_300:'#D197F5',purple_opacity:'rgba(155, 81, 224, 0.08)',violet_600:'#954EBA',violet_500:'#BB6BD9',violet_300:'#E9A9F3',violet_opacity:'rgba(187, 107, 217, 0.08)',magenta_600:'#C03BA0',magenta_500:'#E051AF',magenta_300:'#F597C2',magenta_opacity:'rgba(224, 81, 175, 0.08)'}};var $={offset:{addMarginsProps:e=>{var o,r,t,n,l;return`\n    margin: ${null!==(o=e.m)&&void 0!==o?o:''};\n    margin-top: ${null!==(r=e.mt)&&void 0!==r?r:''};\n    margin-bottom: ${null!==(t=e.mb)&&void 0!==t?t:''};\n    margin-left: ${null!==(n=e.ml)&&void 0!==n?n:''};\n    margin-right: ${null!==(l=e.mr)&&void 0!==l?l:''};\n`},addPaddingsProps:e=>{var o,r,t,n,l;return`\n    padding: ${null!==(o=e.p)&&void 0!==o?o:''};\n    padding-top: ${null!==(r=e.pt)&&void 0!==r?r:''};\n    padding-bottom: ${null!==(t=e.pb)&&void 0!==t?t:''};\n    padding-left: ${null!==(n=e.pl)&&void 0!==n?n:''};\n    padding-right: ${null!==(l=e.pr)&&void 0!==l?l:''};\n`}},color:{opacityColor:(e,o)=>`\n    ${m.rgb(e).copy({opacity:o})}\n`},text:{defaultTextStyle:(e,o='default')=>`\n  font-weight: 600;\n  font-size: ${e.theme.fontSettings[o]};\n  line-height: 140%;\n`,defaultTitleStyle:(e,o)=>{switch(o){case 1:return'\n        font-weight: bold;\n        font-size: 48px;\n        line-height: 59px;\n      ';case 2:return'\n        font-weight: bold;\n        font-size: 36px;\n        line-height: 45px;\n      ';case 3:return'\n        font-weight: bold;\n        font-size: 24px;\n        line-height: 30px;\n      ';case 4:return'\n        font-weight: bold;\n        font-size: 18px;\n        line-height: 22px;\n      ';case 5:return`\n        font-weight: bold;\n        font-size: ${e.theme.fontSettings.large};\n        line-height: 140%;\n      `;case 6:return`\n        font-weight: bold;\n        font-size: ${e.theme.fontSettings.default};\n        line-height: 140%;\n      `;case 7:return`\n        font-weight: bold;\n        font-size: ${e.theme.fontSettings.small};\n        line-height: 140%;\n      `}}}};const{defaultTitleStyle:_}=$.text,x=h.div`
   display: flex;
   flex-direction: column;
   
   & * {
     box-sizing: border-box;
   }
-`;
-const StyledInputLabel$1 = styled.span `
+`,f=h.span`
   margin-top: 4px;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 140%;
-  color: #6A7B9B;
-`;
-const StyledInputEditablePlaceholder$1 = styled.span `
-  color: #6A7B9B;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 140%;
+  color: ${e=>e.theme.colors.gray_800};
+  ${e=>_(e,7)}
+`,y=h.span`
+  color: ${e=>e.theme.colors.gray_800};
+  ${e=>_(e,6)}
   position: absolute;
   left: 16px;
   top: 17px;
@@ -775,30 +24,33 @@ const StyledInputEditablePlaceholder$1 = styled.span `
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-`;
-const OptionalInput$1 = styled(Button) `
+`,v=h.div`
   position: absolute;
   height: 20px;
   top: 50%;
   transform: translateY(-50%);
   right: 18px;
-`;
-const StyledInputWrap$1 = styled.div `
+  color: ${e=>e.theme.colors.blue_500};
+  cursor: pointer;
+  
+  & svg{
+    width: 20px;
+    height: 20px;
+  }
+`,w={StyledInputContainer:x,StyledInputLabel:f,StyledInputWrap:h.div`
   overflow: hidden;
   position: relative;
   height: 56px;
   width: 100%;
   cursor: text;
-  max-width: ${(props) => props.width
-    ? typeof props.width === "number" ? `${props.width}px` : props.width
-    : '306px'};
+  max-width: ${e=>e.width?'number'==typeof e.width?`${e.width}px`:e.width:'306px'};
   border-radius: 8px;
-  background: #f1f3f6;
+  background: ${e=>e.theme.colors.gray_200};
   border: 2px solid transparent;
   display: flex;
 
   &:hover {
-    border: 2px solid #2F80ED;
+    border: 2px solid ${e=>e.theme.colors.blue_500};
   }
 
   & .ant-input {
@@ -822,6 +74,23 @@ const StyledInputWrap$1 = styled.div `
       color: transparent;
     }
   }
+  
+  & .ant-input-password{
+    width: 100%;
+    
+    & .ant-input-suffix{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 18px;
+      color: ${e=>e.theme.colors.blue_500};
+      
+      & svg{
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
 
   &.small {
     height: 40px;
@@ -830,23 +99,23 @@ const StyledInputWrap$1 = styled.div `
       padding: 11px 14px;
 
       &::placeholder {
-        color: #6A7B9B;
+        color: ${e=>e.theme.colors.gray_800};
       }
     }
   }
 
   &.focus {
-    border-color: #2F80ED;
+    border-color: ${e=>e.theme.colors.blue_500};
 
     & .ant-input::placeholder {
-      color: #c1cbd8;
+      color: ${e=>e.theme.colors.gray_600};
     }
   }
 
   &.placeholder_top {
-    & ${StyledInputEditablePlaceholder$1} {
-      font-size: 13px;
-      color: #2F80ED;
+    & ${y} {
+      font-size: ${e=>e.theme.fontSettings.small}
+      color: ${e=>e.theme.colors.blue_500};
       transform: translateY(-10px);
     }
   }
@@ -857,7 +126,7 @@ const StyledInputWrap$1 = styled.div `
       width: 100%;
     }
 
-    & ${StyledInputEditablePlaceholder$1} {
+    & ${y} {
       left: 52px;
       width: calc(100% - 68px);
     }
@@ -868,7 +137,7 @@ const StyledInputWrap$1 = styled.div `
       height: 100%;
       display: flex;
       align-items: center;
-      color: #2F80ED;
+      color: ${e=>e.theme.colors.blue_500};
     }
 
     & .ant-input {
@@ -884,12 +153,13 @@ const StyledInputWrap$1 = styled.div `
   }
 
   &.error {
-    border-color: #EB5757;
+    border-color: ${e=>e.theme.colors.red_500};
 
     & .ant-input-prefix,
-    & ${StyledInputEditablePlaceholder$1},
-    & + ${StyledInputLabel$1} {
-      color: #EB5757;
+    & ${y},
+    & ${v},
+    & + ${f} {
+      color: ${e=>e.theme.colors.red_500};
     }
   }
 
@@ -900,12 +170,12 @@ const StyledInputWrap$1 = styled.div `
   }
 
   &.disabled {
-    background: #f1f3f6;
+    background: ${e=>e.theme.colors.gray_200};
     border-color: transparent;
 
     & .ant-input-prefix,
-    ${StyledInputEditablePlaceholder$1} {
-      color: #c1cbd8;
+    ${y} {
+      color: ${e=>e.theme.colors.gray_600};
     }
   }
 
@@ -913,63 +183,435 @@ const StyledInputWrap$1 = styled.div `
     width: 100%;
     max-width: 100%;
   }
-`;
-const Styled = {
-    StyledInputContainer: StyledInputContainer$1,
-    StyledInputLabel: StyledInputLabel$1,
-    StyledInputWrap: StyledInputWrap$1,
-    OptionalInput: OptionalInput$1,
-    StyledInputEditablePlaceholder: StyledInputEditablePlaceholder$1,
-};
+`,OptionalInput:v,StyledInputEditablePlaceholder:y};var B;(e=>{e.password='password'})(B||(B={}));const{StyledInputContainer:k,StyledInputWrap:F,StyledInputEditablePlaceholder:O,StyledInputLabel:S,OptionalInput:C}=w,j=({value:d='',disabled:h,small:g,placeholder:m,editableHelp:$='Введите данные',label:_,icon:x,error:f,autoWidth:y,onChange:v,onBlur:w,onFocus:j,name:z,width:E,optional:P,optionalIcon:A,type:I})=>{const[D,T]=t(!1),[R,W]=t(d);n((()=>W(null!=d?d:void 0)),[d]);const M=l((()=>D?$:m),[$,m,D]),L=l((()=>{const e=[];return g&&e.push('small'),y&&e.push('auto'),x&&e.push('icon'),D&&e.push('focus'),(D||R)&&e.push('placeholder_top'),f&&e.push('error'),h&&e.push('disabled'),P&&e.push('optional'),e.join(' ')}),[y,h,f,x,R,P,g,D]),Y=l((()=>{if(P){const o=A||e(c,{},void 0);return e(C,Object.assign({onClick:P},{children:o}),void 0)}return null}),[P,A]),G=a((()=>{T(!0),j&&j()}),[j]),H=a((()=>{T(!1),w&&w()}),[w]),N=a((e=>{W(e.currentTarget.value),v&&v(e.currentTarget.value)}),[v]),q=l((()=>I===B.password?e(p.Password,{onFocus:G,onBlur:H,disabled:h,value:R,placeholder:M,onChange:N,name:z,prefix:x,iconRender:o=>e(o?i:s,{},void 0)},void 0):o(r,{children:[e(p,{onFocus:G,onBlur:H,disabled:h,prefix:x,value:R,placeholder:M,onChange:N,name:z},void 0),Y]},void 0)),[h,x,R,z,H,N,G,Y,M,I]);return e(u,Object.assign({theme:b},{children:o(k,{children:[o(F,Object.assign({className:L,width:E},{children:[!g&&e(O,{children:m},void 0),q]}),void 0),_&&e(S,{children:_},void 0)]},void 0)}),void 0)};var z,E,P;(e=>{e.primary='primary',e.danger='danger',e.orange='orange',e.yellow='yellow',e.green='green',e.purple='purple',e.magenta='magenta',e.blue='blue',e.transparent='transparent'})(z||(z={})),(e=>{e.large='large',e.default='default',e.small='small'})(E||(E={})),(e=>{e.default='default',e.translucent='translucent',e.transparent='transparent'})(P||(P={}));const{addPaddingsProps:A,addMarginsProps:I}=$.offset,{defaultTitleStyle:D}=$.text,{opacityColor:T}=$.color,R=g`
+  from {
+    transform: rotate(0deg);
+  }
 
-const { StyledInputContainer, StyledInputWrap, StyledInputEditablePlaceholder, StyledInputLabel, OptionalInput, } = Styled;
-const Input = ({ value = '', disabled, small, placeholder, editableHelp = 'Введите данные', label, icon, error, autoWidth, onChange, onBlur, onFocus, name, width, optional, optionalIcon, }) => {
-    const [visiblePlaceholder, setVisiblePlaceholder] = useState(false);
-    const [inputValue, setInputValue] = useState(value);
-    useEffect(() => setInputValue(value !== null && value !== void 0 ? value : undefined), [value]);
-    const placeholderText = useMemo(() => (visiblePlaceholder ? editableHelp : placeholder), [editableHelp, placeholder, visiblePlaceholder]);
-    const classNameWrap = useMemo(() => {
-        const className = [];
-        if (small)
-            className.push('small');
-        if (autoWidth)
-            className.push('auto');
-        if (icon)
-            className.push('icon');
-        if (visiblePlaceholder)
-            className.push('focus');
-        if (visiblePlaceholder || !!inputValue)
-            className.push('placeholder_top');
-        if (error)
-            className.push('error');
-        if (disabled)
-            className.push('disabled');
-        if (optional)
-            className.push('optional');
-        return className.join(' ');
-    }, [autoWidth, disabled, error, icon, inputValue, optional, small, visiblePlaceholder]);
-    const optionalButton = useMemo(() => {
-        const icon = optionalIcon ? optionalIcon : jsx(StarIcon, {}, void 0);
-        const iconColor = error ? theme.colors.red_500 : theme.colors.blue_500;
-        return (jsx(OptionalInput, { p: 0, iconMargin: 0, icon: icon, type: 'transparent', iconColor: iconColor, onClick: optional }, void 0));
-    }, [error, optional, optionalIcon]);
-    const onFocusInput = useCallback(() => {
-        setVisiblePlaceholder(true);
-        if (onFocus)
-            onFocus();
-    }, [onFocus]);
-    const onBlurInput = useCallback(() => {
-        setVisiblePlaceholder(false);
-        if (onBlur)
-            onBlur();
-    }, [onBlur]);
-    const onChangeInput = useCallback((e) => {
-        setInputValue(e.currentTarget.value);
-        if (onChange)
-            onChange(e.currentTarget.value);
-    }, [onChange]);
-    return (jsxs(StyledInputContainer, { children: [jsxs(StyledInputWrap, Object.assign({ className: classNameWrap, width: width }, { children: [!small && jsx(StyledInputEditablePlaceholder, { children: placeholder }, void 0), jsx(Input$1, { onFocus: onFocusInput, onBlur: onBlurInput, disabled: disabled, prefix: icon, value: inputValue, placeholder: placeholderText, onChange: onChangeInput, name: name }, void 0), optional && optionalButton] }), void 0), label && jsx(StyledInputLabel, { children: label }, void 0)] }, void 0));
-};
+  to {
+    transform: rotate(360deg);
+  }
+`,W=g`
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+`,M=h.div`
+  position: absolute;
+`,L=h.div``,Y=h.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: all 0.3s;
+  text-decoration: none;
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+  height: 40px;
+  overflow: hidden;
 
-export { Button, Input };
+  ${e=>D(e,7)}
+  ${e=>e.fontSize?'font-size:'+e.fontSize+';':''}
+
+  padding: 11px;
+  ${e=>I(e)};
+
+  width: ${e=>e.width?e.width:'auto'};
+  border-radius: ${e=>e.rounded?'50%':e.theme.decoration.defaultBorderRadius};
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  &.translucent {
+    backdrop-filter: ${e=>e.theme.decoration.smallBackgroundFilter};
+  }
+
+  &.stroke {
+    background: white !important;
+    border: 2px solid transparent;
+  }
+
+  &.transparent {
+    background: transparent !important;
+  }
+
+  &.small {
+    padding: 5px;
+    height: 28px;
+  }
+
+  &.large {
+    height: 56px;
+    padding: 11px;
+    ${e=>D(e,5)}
+  }
+
+  ${e=>A(e)}
+  & svg {
+    ${e=>(e=>{const o=e.iconSize;let r='20px',t='20px';return o&&('object'==typeof o?(r=o.width,t=o.height):r=t=`${o}px`),`\n    width: ${r};\n    height: ${t};\n  `})(e)};
+    color: ${e=>e.iconColor};
+    margin-right: ${e=>void 0!==e.iconMargin?`${e.iconMargin}px`:'8px'};
+    margin-bottom: -1px;
+    margin-top: -1px;
+  }
+
+  & * {
+    box-sizing: border-box;
+  }
+
+  &.loading {
+    & svg {
+      color: transparent;
+    }
+
+    & ${L} {
+      color: transparent;
+    }
+
+    & ${M} {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & svg {
+        animation: ${R} 1.3s linear infinite;
+        color: inherit;
+        margin-right: 0;
+      }
+    }
+
+  }
+
+  & .wave {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ${W} .6s linear;
+    background-color: ${e=>T(e.theme.colors.white,.5)};
+  }
+`,G={StyledButton:Y,PrimaryButton:h(Y)`
+  background: ${e=>e.theme.colors.blue_500};
+  color: ${e=>e.theme.colors.white};
+
+  &:hover {
+    background: ${e=>e.theme.colors.blue_600};
+  }
+
+  &.disabled {
+    background: ${e=>e.theme.colors.blue_300};
+  }
+
+  &.translucent {
+    background: ${e=>T(e.theme.colors.blue_500,.08)};
+    color: ${e=>e.theme.colors.blue_500};
+
+    &:hover {
+      background: ${e=>T(e.theme.colors.blue_500,.16)};
+    }
+
+    &.disabled {
+      color: ${e=>e.theme.colors.blue_300};
+    }
+  }
+
+  &.stroke {
+    border-color: ${e=>e.theme.colors.blue_500};
+    color: ${e=>e.theme.colors.blue_500};
+
+    &.disabled {
+      border-color: ${e=>e.theme.colors.blue_300};
+      color: ${e=>e.theme.colors.blue_300};
+    }
+  }
+
+  &.transparent {
+    color: ${e=>e.theme.colors.blue_500};
+  }
+`,DangerButton:h(Y)`
+  background: ${e=>e.theme.colors.red_500};
+  color: ${e=>e.theme.colors.white};
+
+  &:hover {
+    background: ${e=>e.theme.colors.red_600};
+  }
+
+  &.disabled {
+    background: ${e=>e.theme.colors.red_300};
+  }
+
+  &.translucent {
+    background: ${e=>T(e.theme.colors.red_500,.08)};
+    color: ${e=>e.theme.colors.red_500};
+
+    &:hover {
+      background: ${e=>T(e.theme.colors.red_500,.16)};
+    }
+
+    &.disabled {
+      color: ${e=>e.theme.colors.red_300};
+    }
+  }
+
+  &.stroke {
+    border-color: ${e=>e.theme.colors.red_500};
+    color: ${e=>e.theme.colors.red_500};
+
+    &.disabled {
+      border-color: ${e=>e.theme.colors.red_300};
+      color: ${e=>e.theme.colors.red_300};
+    }
+  }
+
+  &.transparent {
+    color: ${e=>e.theme.colors.red_500};
+  }
+`,OrangeButton:h(Y)`
+  background: ${e=>e.theme.colors.orange_500};
+  color: ${e=>e.theme.colors.white};
+
+  &:hover {
+    background: ${e=>e.theme.colors.orange_600};
+  }
+
+  &.disabled {
+    background: ${e=>e.theme.colors.orange_300};
+  }
+
+  &.translucent {
+    background: ${e=>T(e.theme.colors.orange_500,.08)};
+    color: ${e=>e.theme.colors.orange_500};
+
+    &:hover {
+      background: ${e=>T(e.theme.colors.orange_500,.16)};
+    }
+
+    &.disabled {
+      color: ${e=>e.theme.colors.orange_300};
+    }
+  }
+
+  &.stroke {
+    border-color: ${e=>e.theme.colors.orange_500};
+    color: ${e=>e.theme.colors.orange_500};
+
+    &.disabled {
+      border-color: ${e=>e.theme.colors.orange_300};
+      color: ${e=>e.theme.colors.orange_300};
+    }
+  }
+
+  &.transparent {
+    color: ${e=>e.theme.colors.orange_500};
+  }
+`,YellowButton:h(Y)`
+  background: ${e=>e.theme.colors.yellow_500};
+  color: ${e=>e.theme.colors.white};
+
+  &:hover {
+    background: ${e=>e.theme.colors.yellow_600};
+  }
+
+  &.disabled {
+    background: ${e=>e.theme.colors.yellow_300};
+  }
+
+  &.translucent {
+    background: ${e=>T(e.theme.colors.yellow_500,.08)};
+    color: ${e=>e.theme.colors.yellow_500};
+
+    &:hover {
+      background: ${e=>T(e.theme.colors.yellow_500,.16)};
+    }
+
+    &.disabled {
+      color: ${e=>e.theme.colors.yellow_300};
+    }
+  }
+
+  &.stroke {
+    border-color: ${e=>e.theme.colors.yellow_500};
+    color: ${e=>e.theme.colors.yellow_500};
+
+    &.disabled {
+      border-color: ${e=>e.theme.colors.yellow_300};
+      color: ${e=>e.theme.colors.yellow_300};
+    }
+  }
+
+  &.transparent {
+    color: ${e=>e.theme.colors.yellow_500};
+  }
+`,GreenButton:h(Y)`
+  background: ${e=>e.theme.colors.green_500};
+  color: ${e=>e.theme.colors.white};
+
+  &:hover {
+    background: ${e=>e.theme.colors.green_600};
+  }
+
+  &.disabled {
+    background: ${e=>e.theme.colors.green_300};
+  }
+
+  &.translucent {
+    background: ${e=>T(e.theme.colors.green_500,.08)};
+    color: ${e=>e.theme.colors.green_500};
+
+    &:hover {
+      background: ${e=>T(e.theme.colors.green_500,.16)};
+    }
+
+    &.disabled {
+      color: ${e=>e.theme.colors.green_300};
+    }
+  }
+
+  &.stroke {
+    border-color: ${e=>e.theme.colors.green_500};
+    color: ${e=>e.theme.colors.green_500};
+
+    &.disabled {
+      border-color: ${e=>e.theme.colors.green_300};
+      color: ${e=>e.theme.colors.green_300};
+    }
+  }
+
+  &.transparent {
+    color: ${e=>e.theme.colors.green_500};
+  }
+`,PurpleButton:h(Y)`
+  background: ${e=>e.theme.colors.purple_500};
+  color: ${e=>e.theme.colors.white};
+
+  &:hover {
+    background: ${e=>e.theme.colors.purple_600};
+  }
+
+  &.disabled {
+    background: ${e=>e.theme.colors.purple_300};
+  }
+
+  &.translucent {
+    background: ${e=>T(e.theme.colors.purple_500,.08)};
+    color: ${e=>e.theme.colors.purple_500};
+
+    &:hover {
+      background: ${e=>T(e.theme.colors.purple_500,.16)};
+    }
+
+    &.disabled {
+      color: ${e=>e.theme.colors.purple_300};
+    }
+  }
+
+  &.stroke {
+    border-color: ${e=>e.theme.colors.purple_500};
+    color: ${e=>e.theme.colors.purple_500};
+
+    &.disabled {
+      border-color: ${e=>e.theme.colors.purple_300};
+      color: ${e=>e.theme.colors.purple_300};
+    }
+  }
+
+  &.transparent {
+    color: ${e=>e.theme.colors.purple_500};
+  }
+`,MagentaButton:h(Y)`
+  background: ${e=>e.theme.colors.magenta_500};
+  color: ${e=>e.theme.colors.white};
+
+  &:hover {
+    background: ${e=>e.theme.colors.magenta_600};
+  }
+
+  &.disabled {
+    background: ${e=>e.theme.colors.magenta_300};
+  }
+
+  &.translucent {
+    background: ${e=>T(e.theme.colors.magenta_500,.08)};
+    color: ${e=>e.theme.colors.magenta_500};
+
+    &:hover {
+      background: ${e=>T(e.theme.colors.magenta_500,.16)};
+    }
+
+    &.disabled {
+      color: ${e=>e.theme.colors.magenta_300};
+    }
+  }
+
+  &.stroke {
+    border-color: ${e=>e.theme.colors.magenta_500};
+    color: ${e=>e.theme.colors.magenta_500};
+
+    &.disabled {
+      border-color: ${e=>e.theme.colors.magenta_300};
+      color: ${e=>e.theme.colors.magenta_300};
+    }
+  }
+
+  &.transparent {
+    color: ${e=>e.theme.colors.magenta_500};
+  }
+`,BlueButton:h(Y)`
+  background: ${e=>e.theme.colors.cyan_500};
+  color: ${e=>e.theme.colors.white};
+
+  &:hover {
+    background: ${e=>e.theme.colors.cyan_600};
+  }
+
+  &.disabled {
+    background: ${e=>e.theme.colors.cyan_300};
+  }
+
+  &.translucent {
+    background: ${e=>T(e.theme.colors.cyan_500,.08)};
+    color: ${e=>e.theme.colors.cyan_500};
+
+    &:hover {
+      background: ${e=>T(e.theme.colors.cyan_500,.16)};
+    }
+
+    &.disabled {
+      color: ${e=>e.theme.colors.cyan_300};
+    }
+  }
+
+  &.stroke {
+    border-color: ${e=>e.theme.colors.cyan_500};
+    color: ${e=>e.theme.colors.cyan_500};
+
+    &.disabled {
+      border-color: ${e=>e.theme.colors.cyan_300};
+      color: ${e=>e.theme.colors.cyan_300};
+    }
+  }
+
+  &.transparent {
+    color: ${e=>e.theme.colors.cyan_500};
+  }
+`,LoadingIconWrap:M,TextWrap:L},{StyledButton:H,LoadingIconWrap:N,TextWrap:q,PrimaryButton:X,DangerButton:J,OrangeButton:K,YellowButton:Q,GreenButton:U,PurpleButton:V,MagentaButton:Z,BlueButton:ee}=G,oe=(o,r)=>{switch(r){case z.primary:return e(X,Object.assign({},o),void 0);case z.danger:return e(J,Object.assign({},o),void 0);case z.orange:return e(K,Object.assign({},o),void 0);case z.yellow:return e(Q,Object.assign({},o),void 0);case z.green:return e(U,Object.assign({},o),void 0);case z.purple:return e(V,Object.assign({},o),void 0);case z.magenta:return e(Z,Object.assign({},o),void 0);case z.blue:return e(ee,Object.assign({},o),void 0);default:return e(H,Object.assign({},o),void 0)}},re=t=>{var{disabled:n,style:c=P.default,type:i,icon:s,size:p=E.default,loading:h,onClick:g,clickEffect:m=!0,children:$}=t,_=
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+function(e,o){var r={};for(var t in e)Object.prototype.hasOwnProperty.call(e,t)&&o.indexOf(t)<0&&(r[t]=e[t]);if(null!=e&&'function'==typeof Object.getOwnPropertySymbols){var n=0;for(t=Object.getOwnPropertySymbols(e);n<t.length;n++)o.indexOf(t[n])<0&&Object.prototype.propertyIsEnumerable.call(e,t[n])&&(r[t[n]]=e[t[n]])}return r}(t,['disabled','style','type','icon','size','loading','onClick','clickEffect','children']);const x=a((e=>{const o=e.currentTarget,r=document.createElement('span'),t=Math.max(null==o?void 0:o.clientWidth,null==o?void 0:o.clientHeight),n=t/2;r.style.width=r.style.height=`${t}px`,r.style.left=e.clientX-o.offsetLeft-n+'px',r.style.top=e.clientY-o.offsetTop-n+'px',r.classList.add('wave');const l=o.querySelector('.wave');l&&l.remove(),o.appendChild(r)}),[]),f=a((e=>{h||(m&&x(e),g&&g(e))}),[m,x,g,h]),y=l((()=>{const e=[];return n&&e.push('disabled'),c&&i&&e.push(c),p&&e.push(p),h&&e.push('loading'),e.join(' ')}),[n,h,p,c,i]),v=l((()=>o(r,{children:[s,e(q,{children:$},void 0),h&&e(N,{children:e(d,{},void 0)},void 0)]},void 0)),[s,$,h]),w=Object.assign(Object.assign({},_),{className:y,children:v,onClick:f});return e(u,Object.assign({theme:b},{children:oe(w,i)}),void 0)};export{re as Button,j as Input};
 //# sourceMappingURL=index.esm.js.map
