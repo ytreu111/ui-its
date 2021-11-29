@@ -2,6 +2,10 @@ import * as CSS from 'csstype';
 declare type SizeType = 'large' | 'default' | 'small' | 'extraSmall';
 declare type TitleType = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 declare const _default: {
+    offset: {
+        addMarginsProps: (props: any) => string;
+        addPaddingsProps: (props: any) => string;
+    };
     color: {
         opacityColor: (color: CSS.Property.Color, val: number) => string;
     };

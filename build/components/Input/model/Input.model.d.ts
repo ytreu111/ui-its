@@ -8,10 +8,12 @@ export interface InputProps {
     label?: string;
     icon?: ReactNode;
     error?: boolean;
-    allowClear?: boolean;
     autoWidth?: boolean;
     onChange?: (value: string) => void;
     onBlur?: () => void;
     onFocus?: () => void;
     name?: string;
+    width?: number | string;
+    optional?: () => void;
+    optionalIcon?: ReactNode;
 }

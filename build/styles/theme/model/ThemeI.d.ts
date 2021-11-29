@@ -64,10 +64,13 @@ export interface ThemeI {
     decoration: {
         largeBorderRadiusOnlyTop: CSS.Property.BorderRadius;
         defaultBorderRadiusOnlyTop: CSS.Property.BorderRadius;
+        smallBorderRadiusOnlyTop: CSS.Property.BorderRadius;
         largeBorderRadiusOnlyBottom: CSS.Property.BorderRadius;
         defaultBorderRadiusOnlyBottom: CSS.Property.BorderRadius;
+        smallBorderRadiusOnlyBottom: CSS.Property.BorderRadius;
         largeBorderRadius: CSS.Property.BorderRadius;
         defaultBorderRadius: CSS.Property.BorderRadius;
+        smallBorderRadius: CSS.Property.BorderRadius;
         defaultBackgroundFilter: CSS.Property.BackdropFilter;
         smallBackgroundFilter: CSS.Property.BackdropFilter;
         defaultBoxShadow: CSS.Property.BoxShadow;
