@@ -76,10 +76,11 @@ const Button: FC<IButtonProps> = (
     const circle = document.createElement("span");
     const diameter = Math.max(button?.clientWidth, button?.clientHeight);
     const radius = diameter / 2;
+    const {x, y} = button.getBoundingClientRect();
 
     circle.style.width = circle.style.height = `${diameter}px`;
-    circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-    circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+    circle.style.left = `${event.clientX - x - radius}px`;
+    circle.style.top = `${event.clientY - y - radius}px`;
     circle.classList.add("wave");
 
     const wave = button.querySelector(".wave");
