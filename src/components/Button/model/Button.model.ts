@@ -8,7 +8,7 @@ export interface IButtonProps extends IPadding, IMargin{
   type?: ButtonType;
   size?: SizeType;
   disabled?: boolean;
-  style?: StyleType;
+  buttonStyle?: StyleType;
   icon?: ReactNode;
   iconSize?: IIconSize | number;
   iconColor?: CSS.Property.Color;

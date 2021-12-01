@@ -60,7 +60,7 @@ const resolveButton = (props: IButtonProps, type?: ButtonType) => {
 const Button: FC<IButtonProps> = (
   {
     disabled,
-    style = ButtonStyle.default,
+    buttonStyle = ButtonStyle.default,
     type,
     icon,
     size = ButtonSizeEnum.default,
@@ -104,14 +104,14 @@ const Button: FC<IButtonProps> = (
 
     if (disabled) className.push('disabled');
 
-    if (style && type) className.push(style);
+    if (buttonStyle && type) className.push(buttonStyle);
 
     if (size) className.push(size);
 
     if (loading) className.push('loading');
 
     return className.join(' ')
-  }, [disabled, loading, size, style, type]);
+  }, [disabled, loading, size, buttonStyle, type]);
 
   const content = useMemo(() => {
     return (
