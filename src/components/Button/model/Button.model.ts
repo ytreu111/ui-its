@@ -45,7 +45,7 @@ export enum ButtonSizeEnum {
   small = 'small',
 }
 
-export enum ButtonStyle {
+export enum ButtonStyleEnum {
   //TODO Временно убрано по просьбе дизайнеров, тк оно не используется в системе
   // stroke = 'stroke',
   default = 'default',
@@ -57,4 +57,4 @@ export type ButtonType = keyof typeof ButtonTypeEnum;
 
 export type SizeType = keyof typeof ButtonSizeEnum;
 
-export type StyleType = keyof typeof ButtonStyle;
+export type StyleType = keyof typeof ButtonStyleEnum;

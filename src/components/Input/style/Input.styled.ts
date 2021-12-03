@@ -6,7 +6,7 @@ const {defaultTitleStyle} = styleMixins.text;
 const StyledInputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  
+
   & * {
     box-sizing: border-box;
   }
@@ -22,14 +22,14 @@ const StyledInputEditablePlaceholder = styled.span`
   color: ${(props) => props.theme.colors.gray_800};
   ${(props) => defaultTitleStyle(props, 6)}
   position: absolute;
-  left: 16px;
+  left: 14px;
   top: 17px;
   z-index: 1;
   text-align: left;
   user-select: none;
   pointer-events: none;
-  transition: all 0.2s ease;
-  width: calc(100% - 32px);
+  transition: all 0.1s linear;
+  width: calc(100% - 28px);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -40,11 +40,12 @@ const OptionalInput = styled.div`
   height: 20px;
   top: 50%;
   transform: translateY(-50%);
-  right: 18px;
+  right: 14px;
   color: ${(props) => props.theme.colors.blue_500};
   cursor: pointer;
-  
-  & svg{
+  z-index: 1;
+
+  & svg {
     width: 20px;
     height: 20px;
   }
@@ -54,15 +55,15 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
   overflow: hidden;
   position: relative;
   height: 56px;
-  width: 100%;
-  cursor: text;
-  max-width: ${(props) => props.width
+  width: ${(props) => props.width
           ? typeof props.width === "number" ? `${props.width}px` : props.width
-          : '306px'};
+          : 'auto'};
+  cursor: text;
   border-radius: 8px;
   background: ${(props) => props.theme.colors.gray_200};
   border: 2px solid transparent;
   display: flex;
+  transition: all 0.1s linear;
 
   &:hover {
     border: 2px solid ${(props) => props.theme.colors.blue_500};
@@ -73,8 +74,8 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
     height: 100%;
     background: transparent;
     border: none;
-    color: #35446F;
-    padding: 26px 16px 6px;
+    color: ${(props) => props.theme.colors.gray_1000};
+    padding: 26px 14px 6px;
     font-weight: 600;
     font-size: 14px;
     line-height: 140%;
@@ -89,33 +90,59 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
       color: transparent;
     }
   }
-  
-  & .ant-input-password{
+
+  & .ant-input-affix-wrapper {
+    background: transparent;
+    border: none;
+    padding: 0;
     width: 100%;
-    
-    & .ant-input-suffix{
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 18px;
+
+    &::before {
+      content: unset;
+    }
+
+    &::after {
+      content: unset;
+    }
+
+    & .ant-input-prefix {
+      margin-right: 0;
+      margin-left: 14px;
       color: ${(props) => props.theme.colors.blue_500};
-      
-      & svg{
+
+      & svg {
+        height: 20px;
+        width: 20px;
+      }
+    }
+
+    & .ant-input-suffix {
+      margin-left: 0;
+      margin-right: 14px;
+      color: ${(props) => props.theme.colors.blue_500};
+
+      & svg {
         width: 20px;
         height: 20px;
       }
     }
-  }
-
-  &.small {
-    height: 40px;
 
     & .ant-input {
-      padding: 11px 14px;
+      padding: 26px 14px 6px;
+    }
 
-      &::placeholder {
-        color: ${(props) => props.theme.colors.gray_800};
-      }
+    & .ant-input-password-icon {
+      color: inherit;
+    }
+  }
+
+  &.optional {
+    & .ant-input {
+      padding-right: 48px;
+    }
+
+    & ${StyledInputEditablePlaceholder} {
+      width: calc(100% - 64px);
     }
   }
 
@@ -129,58 +156,66 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
 
   &.placeholder_top {
     & ${StyledInputEditablePlaceholder} {
-      font-size: ${(props) => props.theme.fontSettings.small}
+      font-size: ${(props) => props.theme.fontSettings.small};
       color: ${(props) => props.theme.colors.blue_500};
       transform: translateY(-10px);
     }
   }
 
   &.icon {
-
-    & .ant-input-affix-wrapper {
-      width: 100%;
-    }
-
     & ${StyledInputEditablePlaceholder} {
-      left: 52px;
-      width: calc(100% - 68px);
+      left: 48px;
+      width: calc(100% - 64px);
     }
 
-    & .ant-input-prefix {
-      left: 16px;
-      position: absolute;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      color: ${(props) => props.theme.colors.blue_500};
-    }
-
-    & .ant-input {
-      padding-left: 52px;
+    &.optional {
+      & ${StyledInputEditablePlaceholder} {
+        width: calc(100% - 96px);
+      }
     }
   }
-  
-  &.optional {
 
-    & .ant-input{
-      padding-right: 46px;
+  &.small {
+    height: 40px;
+
+    & .ant-input {
+      padding: 8px 12px;
+
+      &::placeholder {
+        color: ${(props) => props.theme.colors.gray_800};
+      }
+    }
+
+    & .ant-input-affix-wrapper {
+      & .ant-input-prefix {
+        margin-left: 8px;
+      }
+
+      & .ant-input-suffix {
+        margin-right: 8px;
+      }
+    }
+
+    &.optional {
+      & .ant-input {
+        padding-right: 36px;
+      }
+    }
+
+    & ${OptionalInput} {
+      right: 8px;
     }
   }
 
   &.error {
     border-color: ${(props) => props.theme.colors.red_500};
 
+    & .ant-input-suffix,
     & .ant-input-prefix,
     & ${StyledInputEditablePlaceholder},
     & ${OptionalInput},
     & + ${StyledInputLabel} {
       color: ${(props) => props.theme.colors.red_500};
-    }
-  }
-
-  &.clear {
-    & .ant-input {
-      padding-right: 8px;
     }
   }
 
@@ -192,11 +227,6 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
     ${StyledInputEditablePlaceholder} {
       color: ${(props) => props.theme.colors.gray_600};
     }
-  }
-
-  &.auto {
-    width: 100%;
-    max-width: 100%;
   }
 `;
 

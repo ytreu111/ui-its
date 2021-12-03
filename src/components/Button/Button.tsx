@@ -4,7 +4,7 @@ import { ThemeProvider } from "styled-components";
 
 import {
   ButtonSizeEnum,
-  ButtonStyle,
+  ButtonStyleEnum,
   ButtonType,
   ButtonTypeEnum,
   IButtonProps,
@@ -60,7 +60,7 @@ const resolveButton = (props: IButtonProps, type?: ButtonType) => {
 const Button: FC<IButtonProps> = (
   {
     disabled,
-    buttonStyle = ButtonStyle.default,
+    buttonStyle = ButtonStyleEnum.default,
     type,
     icon,
     size = ButtonSizeEnum.default,
@@ -68,6 +68,7 @@ const Button: FC<IButtonProps> = (
     onClick,
     clickEffect = true,
     children,
+    rounded,
     ...props
   }) => {
   const onClickEffect = useCallback((event: MouseEvent) => {
@@ -108,10 +109,12 @@ const Button: FC<IButtonProps> = (
 
     if (size) className.push(size);
 
+    if (rounded) className.push('rounded');
+
     if (loading) className.push('loading');
 
     return className.join(' ')
-  }, [disabled, loading, size, buttonStyle, type]);
+  }, [disabled, buttonStyle, type, size, rounded, loading]);
 
   const content = useMemo(() => {
     return (

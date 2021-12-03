@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
+import CSS from "csstype";
 
-export interface InputProps {
+export interface IInputProps {
   value?: string;
   disabled?: boolean;
   small?: boolean;
@@ -9,12 +10,11 @@ export interface InputProps {
   label?: string;
   icon?: ReactNode;
   error?: boolean;
-  autoWidth?: boolean;
   onChange?: (value: string) => void;
   onBlur?: () => void;
   onFocus?: () => void;
   name?: string;
-  width?: number | string;
+  width?: number | CSS.Property.Width;
   optional?: () => void;
   optionalIcon?: ReactNode;
   type?: InputType;

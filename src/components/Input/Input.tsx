@@ -3,7 +3,7 @@ import { EyeIcon, EyeInvisibleIcon, StarIcon } from "ui-its-icons";
 import { Input as InputAntd } from 'antd';
 
 import { Styled } from './style/Input.styled';
-import { InputProps, InputTypeEnum } from './model/Input.model';
+import { IInputProps, InputTypeEnum } from './model/Input.model';
 import theme from "styles/theme/theme";
 import { ThemeProvider } from "styled-components";
 
@@ -15,7 +15,7 @@ const {
   OptionalInput,
 } = Styled;
 
-const Input: FC<InputProps> = (
+const Input: FC<IInputProps> = (
   {
     value = '',
     disabled,
@@ -25,7 +25,6 @@ const Input: FC<InputProps> = (
     label,
     icon,
     error,
-    autoWidth,
     onChange,
     onBlur,
     onFocus,
@@ -36,9 +35,9 @@ const Input: FC<InputProps> = (
     type,
   }) => {
   const [visiblePlaceholder, setVisiblePlaceholder] = useState(false);
-  const [inputValue, setInputValue] = useState(value);
+  const [inputValue, setInputValue] = useState<string>();
 
-  useEffect(() => setInputValue(value ?? undefined), [value]);
+  useEffect(() => setInputValue(value), [value]);
 
   const placeholderText = useMemo(
     () => (visiblePlaceholder ? editableHelp : placeholder),
@@ -49,8 +48,6 @@ const Input: FC<InputProps> = (
     const className: Array<string> = [];
 
     if (small) className.push('small');
-
-    if (autoWidth) className.push('auto');
 
     if (icon) className.push('icon');
 
@@ -65,7 +62,7 @@ const Input: FC<InputProps> = (
     if (optional) className.push('optional')
 
     return className.join(' ');
-  }, [autoWidth, disabled, error, icon, inputValue, optional, small, visiblePlaceholder]);
+  }, [disabled, error, icon, inputValue, optional, small, visiblePlaceholder]);
 
   const optionalButton = useMemo(() => {
     if (optional) {
@@ -108,7 +105,6 @@ const Input: FC<InputProps> = (
           onChange={onChangeInput}
           name={name}
           prefix={icon}
-          iconRender={(visible) => (visible ? <EyeInvisibleIcon/> : <EyeIcon/>)}
         />
       )
     } else {
