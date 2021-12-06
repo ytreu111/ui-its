@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { ComponentMeta, Story } from '@storybook/react';
-import Select from "components/Select/Select";
+import { Select } from "components";
 
 import 'antd/dist/antd.css';
 

@@ -1,6 +1,6 @@
 import CSS from "csstype";
 
-export interface OptionProps {
+export interface IOptionProps {
   value: string | number;
   label: string;
 }
@@ -12,7 +12,7 @@ export interface ISelectProps {
   disabled?: boolean;
   showSearch?: boolean;
   label?: string;
-  options?: Array<OptionProps>;
+  options?: Array<IOptionProps>;
   required?: boolean;
   error?: boolean;
   allowClear?: boolean;

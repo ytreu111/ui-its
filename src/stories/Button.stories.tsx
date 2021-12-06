@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { ComponentMeta, Story } from '@storybook/react';
-import { Button } from "../index";
+import { Button } from "components";
 import { CloseIcon } from "ui-its-icons";
 
 export default {
