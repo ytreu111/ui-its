@@ -14,12 +14,14 @@ export interface IButtonProps extends IPadding, IMargin{
   iconColor?: CSS.Property.Color;
   iconMargin?: number;
   loading?: boolean;
-  onClick?: (e: MouseEvent) => void;
+  onClick?: (e: MouseEvent, value?: string) => void;
   clickEffect?: boolean;
   rounded?: boolean;
   children?: ReactNode;
   fontSize?: CSS.Property.FontSize;
   width?: CSS.Property.Width;
+  value?: string;
+  className?: string;
 }
 
 interface IIconSize {
@@ -36,6 +38,7 @@ export enum ButtonTypeEnum {
   purple = 'purple',
   magenta = 'magenta',
   blue = 'blue',
+  white = 'white',
   transparent = 'transparent',
 }
 

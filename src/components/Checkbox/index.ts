@@ -13,4 +13,5 @@ const Checkbox = InternalCheckbox as CompoundedComponent;
 Checkbox.Group = Group;
 
 export type { ICheckboxProps } from './model/Checkbox.model'
+export type { ICheckboxGroupProps } from './model/Group.model'
 export default Checkbox;

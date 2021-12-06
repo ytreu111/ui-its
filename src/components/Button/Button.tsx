@@ -24,6 +24,7 @@ const {
   PurpleButton,
   MagentaButton,
   BlueButton,
+  WhiteButton,
 } = Styled
 
 const resolveButton = (props: IButtonProps, type?: ButtonType) => {
@@ -52,6 +53,9 @@ const resolveButton = (props: IButtonProps, type?: ButtonType) => {
     case ButtonTypeEnum.blue: {
       return <BlueButton {...props}/>
     }
+    case ButtonTypeEnum.white: {
+      return <WhiteButton {...props}/>
+    }
     default:
       return <StyledButton {...props}/>
   }
@@ -69,6 +73,8 @@ const Button: FC<IButtonProps> = (
     clickEffect = true,
     children,
     rounded,
+    value,
+    className,
     ...props
   }) => {
   const onClickEffect = useCallback((event: MouseEvent) => {
@@ -77,7 +83,7 @@ const Button: FC<IButtonProps> = (
     const circle = document.createElement("span");
     const diameter = Math.max(button?.clientWidth, button?.clientHeight);
     const radius = diameter / 2;
-    const {x, y} = button.getBoundingClientRect();
+    const { x, y } = button.getBoundingClientRect();
 
     circle.style.width = circle.style.height = `${diameter}px`;
     circle.style.left = `${event.clientX - x - radius}px`;
@@ -96,25 +102,27 @@ const Button: FC<IButtonProps> = (
   const onClickEvent = useCallback((e: MouseEvent) => {
     if (!loading) {
       if (clickEffect) onClickEffect(e);
-      if (onClick) onClick(e);
+      if (onClick) onClick(e, value);
     }
-  }, [clickEffect, onClickEffect, onClick, loading]);
+  }, [loading, clickEffect, onClickEffect, onClick, value]);
 
-  const className = useMemo(() => {
-    const className: Array<string> = [];
+  const buttonClassName = useMemo(() => {
+    const customClassName: Array<string> = className ? className.split(' ') : [];
 
-    if (disabled) className.push('disabled');
+    if (disabled) customClassName.push('disabled');
 
-    if (buttonStyle && type) className.push(buttonStyle);
+    if (buttonStyle && type) customClassName.push(`style--${buttonStyle}`);
 
-    if (size) className.push(size);
+    if (size) customClassName.push(`size--${size}`);
 
-    if (rounded) className.push('rounded');
+    if (rounded) customClassName.push('rounded');
 
-    if (loading) className.push('loading');
+    if (loading) customClassName.push('loading');
 
-    return className.join(' ')
-  }, [disabled, buttonStyle, type, size, rounded, loading]);
+    if (!children) customClassName.push('empty');
+
+    return customClassName.join(' ')
+  }, [className, disabled, buttonStyle, type, size, rounded, loading, children]);
 
   const content = useMemo(() => {
     return (
@@ -128,7 +136,7 @@ const Button: FC<IButtonProps> = (
 
   const buttonProps = {
     ...props,
-    className,
+    className: buttonClassName,
     children: content,
     onClick: onClickEvent,
   }

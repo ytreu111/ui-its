@@ -4,11 +4,11 @@ import { styleMixins } from "styles";
 import * as CSS from "csstype";
 import { PropsWithChildren } from "react";
 
-const {addPaddingsProps, addMarginsProps} = styleMixins.offset;
+const { addPaddingsProps, addMarginsProps } = styleMixins.offset;
 
-const {defaultTitleStyle} = styleMixins.text;
+const { defaultTitleStyle } = styleMixins.text;
 
-const {opacityColor} = styleMixins.color;
+const { opacityColor } = styleMixins.color;
 
 const parseIconSize = (props: any) => {
   const iconSize = props.iconSize;
@@ -74,31 +74,31 @@ const StyledButton = styled.button<PropsWithChildren<any>>`
   ${(props) => addMarginsProps(props)};
 
   width: ${(props) => (props.width ? props.width : 'auto')};
-  border-radius: ${(props) => (props.rounded ? '50%' : props.theme.decoration.defaultBorderRadius)};
+  border-radius: ${(props) => props.theme.decoration.defaultBorderRadius};
 
   &.disabled {
     pointer-events: none;
   }
 
-  &.translucent {
+  &.style--translucent {
     backdrop-filter: ${(props) => props.theme.decoration.smallBackgroundFilter};
   }
 
-  &.stroke {
+  &.style--stroke {
     background: white !important;
     border: 2px solid transparent;
   }
 
-  &.transparent {
+  &.style--transparent {
     background: transparent !important;
   }
 
-  &.small {
+  &.size--small {
     padding: 5px;
     height: 28px;
   }
 
-  &.large {
+  &.size--large {
     height: 56px;
     padding: 11px;
     ${(props) => defaultTitleStyle(props, 5)}
@@ -111,6 +111,16 @@ const StyledButton = styled.button<PropsWithChildren<any>>`
     margin-right: ${(props) => props.iconMargin !== undefined ? `${props.iconMargin}px` : '8px'};
     margin-bottom: -1px;
     margin-top: -1px;
+  }
+
+  &.empty {
+    & svg {
+      margin-right: 0;
+    }
+  }
+
+  &.rounded {
+    border-radius: ${(props) => props.theme.decoration.largeBorderRadius};
   }
 
   & * {
@@ -163,7 +173,7 @@ const PrimaryButton = styled(StyledButton)`
     background: ${(props) => props.theme.colors.blue_300};
   }
 
-  &.translucent {
+  &.style--translucent {
     background: ${(props) => opacityColor(props.theme.colors.blue_500, 0.08)};
     color: ${(props) => props.theme.colors.blue_500};
 
@@ -176,7 +186,7 @@ const PrimaryButton = styled(StyledButton)`
     }
   }
 
-  &.stroke {
+  &.style--stroke {
     border-color: ${(props) => props.theme.colors.blue_500};
     color: ${(props) => props.theme.colors.blue_500};
 
@@ -186,7 +196,7 @@ const PrimaryButton = styled(StyledButton)`
     }
   }
 
-  &.transparent {
+  &.style--transparent {
     color: ${(props) => props.theme.colors.blue_500};
   }
 `
@@ -203,7 +213,7 @@ const DangerButton = styled(StyledButton)`
     background: ${(props) => props.theme.colors.red_300};
   }
 
-  &.translucent {
+  &.style--translucent {
     background: ${(props) => opacityColor(props.theme.colors.red_500, 0.08)};
     color: ${(props) => props.theme.colors.red_500};
 
@@ -216,7 +226,7 @@ const DangerButton = styled(StyledButton)`
     }
   }
 
-  &.stroke {
+  &.style--stroke {
     border-color: ${(props) => props.theme.colors.red_500};
     color: ${(props) => props.theme.colors.red_500};
 
@@ -226,7 +236,7 @@ const DangerButton = styled(StyledButton)`
     }
   }
 
-  &.transparent {
+  &.style--transparent {
     color: ${(props) => props.theme.colors.red_500};
   }
 `
@@ -243,7 +253,7 @@ const OrangeButton = styled(StyledButton)`
     background: ${(props) => props.theme.colors.orange_300};
   }
 
-  &.translucent {
+  &.style--translucent {
     background: ${(props) => opacityColor(props.theme.colors.orange_500, 0.08)};
     color: ${(props) => props.theme.colors.orange_500};
 
@@ -256,7 +266,7 @@ const OrangeButton = styled(StyledButton)`
     }
   }
 
-  &.stroke {
+  &.style--stroke {
     border-color: ${(props) => props.theme.colors.orange_500};
     color: ${(props) => props.theme.colors.orange_500};
 
@@ -266,7 +276,7 @@ const OrangeButton = styled(StyledButton)`
     }
   }
 
-  &.transparent {
+  &.style--transparent {
     color: ${(props) => props.theme.colors.orange_500};
   }
 `
@@ -283,7 +293,7 @@ const YellowButton = styled(StyledButton)`
     background: ${(props) => props.theme.colors.yellow_300};
   }
 
-  &.translucent {
+  &.style--translucent {
     background: ${(props) => opacityColor(props.theme.colors.yellow_500, 0.08)};
     color: ${(props) => props.theme.colors.yellow_500};
 
@@ -296,7 +306,7 @@ const YellowButton = styled(StyledButton)`
     }
   }
 
-  &.stroke {
+  &.style--stroke {
     border-color: ${(props) => props.theme.colors.yellow_500};
     color: ${(props) => props.theme.colors.yellow_500};
 
@@ -306,7 +316,7 @@ const YellowButton = styled(StyledButton)`
     }
   }
 
-  &.transparent {
+  &.style--transparent {
     color: ${(props) => props.theme.colors.yellow_500};
   }
 `
@@ -323,7 +333,7 @@ const GreenButton = styled(StyledButton)`
     background: ${(props) => props.theme.colors.green_300};
   }
 
-  &.translucent {
+  &.style--translucent {
     background: ${(props) => opacityColor(props.theme.colors.green_500, 0.08)};
     color: ${(props) => props.theme.colors.green_500};
 
@@ -336,7 +346,7 @@ const GreenButton = styled(StyledButton)`
     }
   }
 
-  &.stroke {
+  &.style--stroke {
     border-color: ${(props) => props.theme.colors.green_500};
     color: ${(props) => props.theme.colors.green_500};
 
@@ -346,7 +356,7 @@ const GreenButton = styled(StyledButton)`
     }
   }
 
-  &.transparent {
+  &.style--transparent {
     color: ${(props) => props.theme.colors.green_500};
   }
 `
@@ -363,7 +373,7 @@ const PurpleButton = styled(StyledButton)`
     background: ${(props) => props.theme.colors.purple_300};
   }
 
-  &.translucent {
+  &.style--translucent {
     background: ${(props) => opacityColor(props.theme.colors.purple_500, 0.08)};
     color: ${(props) => props.theme.colors.purple_500};
 
@@ -376,7 +386,7 @@ const PurpleButton = styled(StyledButton)`
     }
   }
 
-  &.stroke {
+  &.style--stroke {
     border-color: ${(props) => props.theme.colors.purple_500};
     color: ${(props) => props.theme.colors.purple_500};
 
@@ -386,7 +396,7 @@ const PurpleButton = styled(StyledButton)`
     }
   }
 
-  &.transparent {
+  &.style--transparent {
     color: ${(props) => props.theme.colors.purple_500};
   }
 `
@@ -403,7 +413,7 @@ const MagentaButton = styled(StyledButton)`
     background: ${(props) => props.theme.colors.magenta_300};
   }
 
-  &.translucent {
+  &.style--translucent {
     background: ${(props) => opacityColor(props.theme.colors.magenta_500, 0.08)};
     color: ${(props) => props.theme.colors.magenta_500};
 
@@ -416,7 +426,7 @@ const MagentaButton = styled(StyledButton)`
     }
   }
 
-  &.stroke {
+  &.style--stroke {
     border-color: ${(props) => props.theme.colors.magenta_500};
     color: ${(props) => props.theme.colors.magenta_500};
 
@@ -426,7 +436,7 @@ const MagentaButton = styled(StyledButton)`
     }
   }
 
-  &.transparent {
+  &.style--transparent {
     color: ${(props) => props.theme.colors.magenta_500};
   }
 `
@@ -443,7 +453,7 @@ const BlueButton = styled(StyledButton)`
     background: ${(props) => props.theme.colors.cyan_300};
   }
 
-  &.translucent {
+  &.style--translucent {
     background: ${(props) => opacityColor(props.theme.colors.cyan_500, 0.08)};
     color: ${(props) => props.theme.colors.cyan_500};
 
@@ -456,7 +466,7 @@ const BlueButton = styled(StyledButton)`
     }
   }
 
-  &.stroke {
+  &.style--stroke {
     border-color: ${(props) => props.theme.colors.cyan_500};
     color: ${(props) => props.theme.colors.cyan_500};
 
@@ -466,8 +476,18 @@ const BlueButton = styled(StyledButton)`
     }
   }
 
-  &.transparent {
+  &.style--transparent {
     color: ${(props) => props.theme.colors.cyan_500};
+  }
+`
+
+const WhiteButton = styled(StyledButton)`
+  box-shadow: 0px 2px 8px rgba(47, 128, 237, 0.12);
+  background-color: ${(props) => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.gray_1000};
+  
+  &.disabled {
+    color: ${(props) => props.theme.colors.gray_600};
   }
 `
 
@@ -481,6 +501,7 @@ export const Styled = {
   PurpleButton,
   MagentaButton,
   BlueButton,
+  WhiteButton,
   LoadingIconWrap,
   TextWrap,
 }

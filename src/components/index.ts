@@ -1,7 +1,7 @@
-export type { IButtonProps, ButtonSizeEnum, ButtonStyleEnum, ButtonTypeEnum } from './Button';
+export type { IButtonProps, IButtonGroupProps, ButtonSizeEnum, ButtonStyleEnum, ButtonTypeEnum } from './Button';
 export { default as Button } from './Button';
 
-export type { ICheckboxProps } from './Checkbox';
+export type { ICheckboxProps, ICheckboxGroupProps } from './Checkbox';
 export { default as Checkbox } from './Checkbox';
 
 export type { IInputProps, InputTypeEnum } from './Input';
