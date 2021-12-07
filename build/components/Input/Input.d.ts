@@ -1,4 +1,4 @@
 import { FC } from 'react';
-import { InputProps } from './model/Input.model';
-declare const Input: FC<InputProps>;
+import { IInputProps } from './model/Input.model';
+declare const Input: FC<IInputProps>;
 export default Input;

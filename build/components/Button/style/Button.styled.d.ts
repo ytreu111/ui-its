@@ -8,6 +8,7 @@ export declare const Styled: {
     PurpleButton: import("styled-components").StyledComponent<"button", any, any, never>;
     MagentaButton: import("styled-components").StyledComponent<"button", any, any, never>;
     BlueButton: import("styled-components").StyledComponent<"button", any, any, never>;
+    WhiteButton: import("styled-components").StyledComponent<"button", any, any, never>;
     LoadingIconWrap: import("styled-components").StyledComponent<"div", any, {}, never>;
     TextWrap: import("styled-components").StyledComponent<"div", any, {}, never>;
 };

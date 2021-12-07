@@ -74,7 +74,7 @@ const childrenButton = (children: ReactNode, buttonOptions: IButtonOptions, curr
   return newContent;
 }
 
-const Group: FC<IButtonGroupProps> = (
+const ButtonGroup: FC<IButtonGroupProps> = (
   {
     value,
     buttonGap = 8,
@@ -119,4 +119,4 @@ const Group: FC<IButtonGroupProps> = (
   );
 }
 
-export default Group;
+export default ButtonGroup;

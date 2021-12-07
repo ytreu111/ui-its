@@ -6,18 +6,20 @@ export interface IButtonProps extends IPadding, IMargin {
     type?: ButtonType;
     size?: SizeType;
     disabled?: boolean;
-    style?: StyleType;
+    buttonStyle?: StyleType;
     icon?: ReactNode;
     iconSize?: IIconSize | number;
     iconColor?: CSS.Property.Color;
     iconMargin?: number;
     loading?: boolean;
-    onClick?: (e: MouseEvent) => void;
+    onClick?: (e: MouseEvent, value?: string) => void;
     clickEffect?: boolean;
     rounded?: boolean;
     children?: ReactNode;
     fontSize?: CSS.Property.FontSize;
     width?: CSS.Property.Width;
+    value?: string;
+    className?: string;
 }
 interface IIconSize {
     width: CSS.Property.Width;
@@ -32,6 +34,7 @@ export declare enum ButtonTypeEnum {
     purple = "purple",
     magenta = "magenta",
     blue = "blue",
+    white = "white",
     transparent = "transparent"
 }
 export declare enum ButtonSizeEnum {
@@ -39,12 +42,12 @@ export declare enum ButtonSizeEnum {
     default = "default",
     small = "small"
 }
-export declare enum ButtonStyle {
+export declare enum ButtonStyleEnum {
     default = "default",
     translucent = "translucent",
     transparent = "transparent"
 }
 export declare type ButtonType = keyof typeof ButtonTypeEnum;
 export declare type SizeType = keyof typeof ButtonSizeEnum;
-export declare type StyleType = keyof typeof ButtonStyle;
+export declare type StyleType = keyof typeof ButtonStyleEnum;
 export {};

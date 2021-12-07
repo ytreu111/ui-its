@@ -5,6 +5,7 @@
   "homepage": "/",
   "main": "build/index.js",
   "module": "build/index.esm.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "build": "rollup -c",
     "storybook": "NODE_PATH=src start-storybook -p 6006",

@@ -60,7 +60,7 @@ const childrenCheckbox = (children: ReactNode, groupValue: Set<any>, onChangeChe
   return newContent;
 }
 
-const Group: FC<ICheckboxGroupProps> = (
+const CheckboxGroup: FC<ICheckboxGroupProps> = (
   {
     options,
     value = [],
@@ -116,4 +116,4 @@ const Group: FC<ICheckboxGroupProps> = (
   );
 }
 
-export default Group;
+export default CheckboxGroup;

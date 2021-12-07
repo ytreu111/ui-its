@@ -1,16 +1,16 @@
 import { FC } from "react";
 
 import InternalCheckbox from "./Checkbox";
-import Group from "./Group";
+import CheckboxGroup from "./CheckboxGroup";
 import { ICheckboxProps } from "./model/Checkbox.model";
 
 export interface CompoundedComponent extends FC<ICheckboxProps> {
-  Group: typeof Group
+  Group: typeof CheckboxGroup
 }
 
 const Checkbox = InternalCheckbox as CompoundedComponent;
 
-Checkbox.Group = Group;
+Checkbox.Group = CheckboxGroup;
 
 export type { ICheckboxProps } from './model/Checkbox.model'
 export type { ICheckboxGroupProps } from './model/Group.model'

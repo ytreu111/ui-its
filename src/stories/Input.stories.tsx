@@ -1,7 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { ComponentMeta, Story } from '@storybook/react';
-
-import { Input } from "components";
+import Input from "components/Input";
 
 import 'antd/dist/antd.css';
 

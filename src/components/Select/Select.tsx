@@ -3,7 +3,7 @@ import { Select as SelectANTD } from 'antd';
 import _ from 'underscore';
 import { ChevronDownIcon, BaselineCheckIcon, CloseIcon } from 'ui-its-icons';
 
-import { OptionProps, ISelectProps, SelectModeEnum } from './model/SelectProps.model';
+import { IOptionProps, ISelectProps, SelectModeEnum } from './model/SelectProps.model';
 import { Styled } from './style/Select.styled';
 import theme from "styles/theme/theme";
 import { ThemeProvider } from "styled-components";
@@ -43,7 +43,7 @@ const Select: FC<ISelectProps> = (
   // Коэффициент для умножения количества пунктов меню отображаемых в селекте
   const [countOptionsList, setCountOptionsList] = useState(2);
 
-  const [filterOptions, setFilterOptions] = useState<Array<OptionProps>>([]);
+  const [filterOptions, setFilterOptions] = useState<Array<IOptionProps>>([]);
 
   const selectWrapRef = useRef(null);
 
