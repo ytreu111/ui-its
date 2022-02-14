@@ -65,7 +65,7 @@ const Button: FC<IButtonProps> = (
   {
     disabled,
     buttonStyle = ButtonStyleEnum.default,
-    type,
+    type= ButtonTypeEnum.primary,
     icon,
     size = ButtonSizeEnum.default,
     loading,
