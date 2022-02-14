@@ -2,9 +2,9 @@ import styled from 'styled-components/macro';
 import { styleMixins } from "styles";
 import { ISelectProps } from "../model/SelectProps.model";
 
-const {opacityColor} = styleMixins.color;
+const { opacityColor } = styleMixins.color;
 
-const {defaultTitleStyle} = styleMixins.text;
+const { defaultTitleStyle } = styleMixins.text;
 
 const Placeholder = styled.span`
   ${(props) => defaultTitleStyle(props, 6)};
@@ -68,35 +68,24 @@ const StyledSelect = styled.div<ISelectProps>`
   & .ant-select-selector {
     width: 100%;
     height: 100%;
+    padding: 0 !important;
   }
 
-  & .ant-select-selection {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: none !important;
-    box-shadow: none;
-    padding: 0;
-    cursor: pointer;
-  }
-
-  & .ant-select-selection__rendered {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    line-height: 0;
-  }
-
-  & .ant-select-selection-selected-value {
-    float: unset;
-    position: absolute;
-    left: 14px;
-    bottom: 6px;
-    ${(props) => defaultTitleStyle(props, 6)}
-  }
-
-  & .ant-select-search {
+  & .ant-select-selection-search {
     display: none;
+    height: 100%;
+    margin-inline-start: 0;
+    width: 100% !important;
+  }
+
+  & .ant-select-selection-overflow,
+  & .ant-select-selection-overflow-item {
+    height: 100%;
+    width: 100%;
+
+    &:not(.ant-select-selection-overflow-item-suffix) {
+      display: none;
+    }
   }
 
   & .ant-select-arrow {
@@ -125,54 +114,52 @@ const StyledSelect = styled.div<ISelectProps>`
     border-radius: ${(props) => props.theme.decoration.defaultBorderRadius};
   }
 
-  & .ant-select-dropdown-menu-item {
+  & .rc-virtual-list-scrollbar {
+    right: -8px;
+  }
+
+  & .ant-select-item {
     padding: 9px 12px;
     ${(props) => defaultTitleStyle(props, 6)};
     color: ${(props) => props.theme.colors.gray_1000};
     border-radius: ${(props) => props.theme.decoration.defaultBorderRadius};
   }
 
-  & .ant-select-dropdown-menu-item-selected,
-  & .ant-select-dropdown-menu-item-active {
+  & .ant-select-item-option-selected,
+  & .ant-select-item-option-active {
     background-color: ${(props) => opacityColor(props.theme.colors.blue_500, 0.08)} !important;
     color: ${(props) => props.theme.colors.blue_500} !important;
   }
 
-  & .ant-select-selection--multiple {
+  & .ant-select-multiple {
 
-    & .ant-select-selection__choice {
+    & .ant-select-selection-item {
       display: none;
     }
 
-    & ul {
-      width: 100%;
-      height: 100%;
-    }
-
     & .ant-select-selector {
-      padding: 0;
       cursor: pointer;
     }
   }
 
-  //Стили классов компонента
+  // Стили классов компонента
   &.focused {
     border-color: ${(props) => props.theme.colors.blue_500};
-
-    &:not(.selected).clear {
-      & .ant-select-selection__clear {
-        display: none;
-      }
-    }
 
     & .ant-select-arrow {
       transform: translateY(-50%) rotate(180deg);
     }
 
-    &.search ${Placeholder} {
-      top: 6px;
-      font-size: ${(props) => props.theme.fontSettings.small};
-      color: ${(props) => props.theme.colors.blue_500};
+    &.search {
+      & ${Placeholder} {
+        top: 6px;
+        font-size: ${(props) => props.theme.fontSettings.small};
+        color: ${(props) => props.theme.colors.blue_500};
+      }
+
+      & .ant-select-arrow {
+        display: none;
+      }
     }
   }
 
@@ -189,7 +176,7 @@ const StyledSelect = styled.div<ISelectProps>`
       transform: translateY(-50%);
     }
 
-    & .ant-select-selection-selected-value {
+    & .ant-select-selection-item {
       padding: 0;
       ${(props) => defaultTitleStyle(props, 6)}
       color: ${(props) => props.theme.colors.gray_1000};
@@ -208,28 +195,23 @@ const StyledSelect = styled.div<ISelectProps>`
   }
 
   &.search {
-    & .ant-select-selection__placeholder {
+    & .ant-select-selection-placeholder {
       padding: 0 !important;
       color: ${(props) => props.theme.colors.gray_600};
       ${(props) => defaultTitleStyle(props, 6)};
       left: 14px !important;
       bottom: 6px;
+      right: unset;
       top: unset;
       transform: unset;
-      margin: 0 !important;
     }
 
-    & .ant-select-search {
-      width: 100%;
-      height: 100%;
-      position: unset;
-      margin-top: 0;
-      float: unset;
-
+    & .ant-select-selection-search {
       & input {
+        border: none;
+        background: transparent;
+        outline: none;
         width: calc(100% - 62px);
-        height: auto;
-        display: block;
         position: absolute;
         left: 14px;
         bottom: 6px;
@@ -239,12 +221,8 @@ const StyledSelect = styled.div<ISelectProps>`
       }
     }
 
-    & ${Placeholder} {
-      z-index: 1;
-    }
-
     &.focused {
-      & .ant-select-search {
+      & .ant-select-selection-search {
         display: block;
       }
     }
@@ -257,7 +235,7 @@ const StyledSelect = styled.div<ISelectProps>`
       }
     }
 
-    & .ant-select-selection__clear {
+    & .ant-select-clear {
       background: transparent;
       width: auto;
       height: auto;
@@ -283,7 +261,7 @@ const StyledSelect = styled.div<ISelectProps>`
       top: 50%;
       transform: translateY(-50%);
       bottom: unset;
-      left: 12px;
+      left: 12px !important;
       width: calc(100% - 56px);
     }
 
@@ -299,7 +277,7 @@ const StyledSelect = styled.div<ISelectProps>`
         display: none;
       }
 
-      & .ant-select-selection-selected-value {
+      & .ant-select-selection-item {
         top: 50%;
         transform: translateY(-50%);
         bottom: unset;
@@ -307,7 +285,7 @@ const StyledSelect = styled.div<ISelectProps>`
       }
     }
 
-    & .ant-select-search {
+    & .ant-select-selection-search {
 
       & input {
         padding: 0;
@@ -330,7 +308,7 @@ const StyledSelect = styled.div<ISelectProps>`
       color: ${(props) => props.theme.colors.red_500} !important;
     }
 
-    & .ant-select-selection-selected-value {
+    & .ant-select-selection-item {
       color: ${(props) => props.theme.colors.gray_800};
     }
   }
@@ -343,7 +321,7 @@ const StyledSelect = styled.div<ISelectProps>`
       color: ${(props) => props.theme.colors.gray_600};
     }
 
-    & .ant-select-selection-selected-value {
+    & .ant-select-selection-item {
       color: ${(props) => props.theme.colors.gray_800};
     }
   }

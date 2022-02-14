@@ -30,7 +30,7 @@ const Select: FC<ISelectProps> = (
     error,
     allowClear,
     small,
-    mode = SelectModeEnum.default,
+    mode ,
     width,
     onChange,
     onFocus,

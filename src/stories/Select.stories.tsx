@@ -29,4 +29,6 @@ FirstStory.args = {
   options: options,
   allowClear: true,
   small: true,
+  showSearch: true
+  // value: 'test2'
 };

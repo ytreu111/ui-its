@@ -27,6 +27,5 @@ export interface ISelectProps {
 type SelectMode = keyof typeof SelectModeEnum;
 
 export enum SelectModeEnum {
-  default = 'default',
   multiple = 'multiple',
 }
