@@ -145,6 +145,7 @@ const StyledSelect = styled.div<ISelectProps>`
   // Стили классов компонента
   &.focused {
     border-color: ${(props) => props.theme.colors.blue_500};
+    background-color: ${(props) => props.theme.colors.white};
 
     & .ant-select-arrow {
       transform: translateY(-50%) rotate(180deg);

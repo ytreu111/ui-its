@@ -148,6 +148,7 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
 
   &.focus {
     border-color: ${(props) => props.theme.colors.blue_500};
+    background-color: ${(props) => props.theme.colors.white};
 
     & .ant-input::placeholder {
       color: ${(props) => props.theme.colors.gray_600};

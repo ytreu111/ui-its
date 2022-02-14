@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { EyeIcon, EyeInvisibleIcon, StarIcon } from "ui-its-icons";
+import { StarIcon } from "ui-its-icons";
 import { Input as InputAntd } from 'antd';
 
 import { Styled } from './style/Input.styled';

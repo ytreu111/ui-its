@@ -62,6 +62,7 @@ const StyledTextArea = styled.textarea<IStyledTextAreaProps>`
   &:focus-visible,
   &:active {
     border-color: ${(props) => props.theme.colors.blue_500};
+    background-color: ${(props) => props.theme.colors.white};
 
     &::placeholder {
       color: ${(props) => props.theme.colors.gray_600}
