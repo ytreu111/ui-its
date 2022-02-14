@@ -87,6 +87,52 @@ const addPaddingsProps = (props: ThemedStyledProps<any, ThemeI>) => `
     padding-right: ${props.pr ?? ''};
 `;
 
+const hideScrollbar = () => `
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const scrollbarThin = (props: ThemedStyledProps<any, ThemeI>) => `
+  * {
+      ::-webkit-scrollbar {
+      width: 9px;
+      height: 9px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+      background: ${props.theme.colors.white};
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+      background: ${props.theme.colors.gray_600};
+      border-radius: ${props.theme.decoration.defaultBorderRadius};
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+      background: ${props.theme.colors.gray_800};
+      }
+    }
+`;
+
+const getDefaultBeatifiedScrollbar = (props: ThemedStyledProps<any, ThemeI>) => `
+    ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    border: none;
+    width: 10px;
+    border-radius: ${props.theme.decoration.defaultBorderRadius};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${props.theme.colors.gray_600};
+    border-radius: ${props.theme.decoration.defaultBorderRadius};
+  }
+`;
+
 export default {
   offset: {
     addMarginsProps,
@@ -99,4 +145,9 @@ export default {
     defaultTextStyle,
     defaultTitleStyle,
   },
+  other: {
+    hideScrollbar,
+    scrollbarThin,
+    getDefaultBeatifiedScrollbar,
+  }
 };

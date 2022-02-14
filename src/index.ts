@@ -12,3 +12,6 @@ export { default as Select } from 'components/Select';
 
 export type { ITextAreaProps } from 'components/TextArea';
 export { default as TextArea } from 'components/TextArea';
+
+export type { IPanelProps, IPanelHeaderProps, IPanelFooterProps } from 'components/Panel';
+export { default as Panel } from 'components/Panel';

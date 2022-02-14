@@ -7,6 +7,10 @@ export interface ThemeI {
     small: CSS.Property.FontSize;
     extraSmall: CSS.Property.FontSize;
   },
+  padding: {
+    default: CSS.Property.Padding,
+    small: CSS.Property.Padding,
+  },
   colors: {
     gray_1000: CSS.Property.Color;
     gray_800: CSS.Property.Color;

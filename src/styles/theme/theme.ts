@@ -25,6 +25,10 @@ const theme: ThemeI = {
     redBoxShadow: '0px 18px 40px rgba(235, 87, 87, 0.08)',
     primaryBoxShadow: '0px -18px 40px rgba(107, 138, 228, 0.02), 0px 18px 40px rgba(107, 138, 228, 0.08)',
   },
+  padding: {
+    default: '16px',
+    small: '8px',
+  },
   colors: {
     gray_1000: '#1A2138',
     gray_800: '#6A7B9B',
