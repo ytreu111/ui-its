@@ -1,8 +1,8 @@
 import typescript from 'rollup-plugin-typescript2';
 import resolve from '@rollup/plugin-node-resolve';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import commonjs from "@rollup/plugin-commonjs";
-import del from 'rollup-plugin-delete'
+import commonjs from '@rollup/plugin-commonjs';
+import del from 'rollup-plugin-delete';
 import { terser } from 'rollup-plugin-terser';
 
 const packageJson = require('./package.json');
@@ -31,8 +31,8 @@ export default {
     typescript({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: {
-        exclude: ['**/stories', '**/*.stories.tsx']
-      }
+        exclude: ['**/stories', '**/*.stories.tsx', '**/test'],
+      },
     }),
     terser({
       ecma: 2018,
@@ -42,9 +42,9 @@ export default {
         toplevel: true,
         unsafe_arrows: true,
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
       },
-      output: { quote_style: 1 }
-    })
+      output: { quote_style: 1 },
+    }),
   ],
 };
