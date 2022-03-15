@@ -1,5 +1,5 @@
-import { StyleType } from "./Button.model";
-import { ReactNode } from "react";
+import { StyleType } from './Button.model';
+import { ReactNode } from 'react';
 
 export interface IButtonGroupProps {
   value?: string;
@@ -11,9 +11,6 @@ export interface IButtonGroupProps {
   defaultValue?: string;
 }
 
-export interface IButtonOptions {
-  selectButton: StyleType,
-  deselectButton: StyleType,
-  defaultIcon: ReactNode,
-  onChange: (event: MouseEvent, value?: string) => void;
-}
+type ButtonOptionsFields = 'selectButton' | 'deselectButton' | 'defaultIcon' | 'onChange';
+
+export type ButtonOptions = Required<Pick<IButtonGroupProps, ButtonOptionsFields>>;
