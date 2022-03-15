@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Компонент Input className 1`] = `
+"[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m\\"sc-bdvvtL bcaXYY\\"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m\\"sc-eCImPb eFJDNR test small icon error\\"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m\\"ant-input-affix-wrapper\\"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m\\"ant-input-prefix\\"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m\\"anticon\\"[39m
+              [33mrole[39m=[32m\\"img\\"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mfill[39m=[32m\\"currentColor\\"[39m
+                [33mheight[39m=[32m\\"24\\"[39m
+                [33mviewBox[39m=[32m\\"0 0 24 24\\"[39m
+                [33mwidth[39m=[32m\\"24\\"[39m
+                [33mxmlns[39m=[32m\\"http://www.w3.org/2000/svg\\"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m\\"M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z\\"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</span>[39m
+          [36m</span>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m\\"ant-input\\"[39m
+            [33mdata-testid[39m=[32m\\"input\\"[39m
+            [33mtype[39m=[32m\\"text\\"[39m
+            [33mvalue[39m=[32m\\"\\"[39m
+          [36m/>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m"
+`;
