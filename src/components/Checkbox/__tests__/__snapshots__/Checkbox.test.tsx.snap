@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Компонент Checkbox disabled 1`] = `
+"[36m<body>[39m
+  [36m<div>[39m
+    [36m<label[39m
+      [33mclass[39m=[32m\\"sc-eCImPb ldrcYY disabled\\"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m\\"sc-gsDKAQ kVIrCS\\"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m\\"anticon\\"[39m
+          [33mdata-testid[39m=[32m\\"non-active-icon\\"[39m
+          [33mrole[39m=[32m\\"img\\"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mfill[39m=[32m\\"currentColor\\"[39m
+            [33mheight[39m=[32m\\"24\\"[39m
+            [33mviewBox[39m=[32m\\"0 0 24 24\\"[39m
+            [33mwidth[39m=[32m\\"24\\"[39m
+            [33mxmlns[39m=[32m\\"http://www.w3.org/2000/svg\\"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m\\"M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2zm0-2V5H5v14h14z\\"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<input[39m
+        [33mclass[39m=[32m\\"sc-hKwDye bmJdxt\\"[39m
+        [33mtype[39m=[32m\\"checkbox\\"[39m
+      [36m/>[39m
+      [36m<span[39m
+        [33mclass[39m=[32m\\"sc-bdvvtL jldYWA\\"[39m
+      [36m>[39m
+        [0mcheckbox[0m
+      [36m</span>[39m
+    [36m</label>[39m
+  [36m</div>[39m
+[36m</body>[39m"
+`;
