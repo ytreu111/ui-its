@@ -181,6 +181,8 @@ const StyledInputWrap = styled.div<{width?: number | string}>`
 
     & .ant-input {
       padding: 8px 12px;
+      //TODO
+      font-size: 13px;
 
       &::placeholder {
         color: ${(props) => props.theme.colors.gray_800};

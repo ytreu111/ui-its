@@ -1,10 +1,11 @@
-import { ChangeEvent, FC, MouseEventHandler, useCallback, useEffect, useMemo, useState } from "react";
-import { ThemeProvider } from "styled-components";
+import { ChangeEvent, FC, MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 import { CheckBoxIcon, ActiveCheckBoxIcon } from 'ui-its-icons';
 
-import { ICheckboxProps } from "./model/Checkbox.model";
-import { Styled } from "./style/Checkbox.styled";
-import theme from "styles/theme/theme";
+import { ICheckboxProps } from './model/Checkbox.model';
+import { Styled } from './style/Checkbox.styled';
+import theme from 'styles/theme/theme';
+import { CheckpointTestElemsEnum } from './__tests__/Checkpoint.test.model';
 
 const {
   CheckboxWrap,
@@ -34,7 +35,9 @@ const Checkbox: FC<ICheckboxProps> = (
     if (iconRender) {
       return iconRender(checkedInput);
     } else {
-      return checkedInput ? <ActiveCheckBoxIcon/> : <CheckBoxIcon/>;
+      return checkedInput
+        ? <ActiveCheckBoxIcon data-testid={CheckpointTestElemsEnum.activeIcon} />
+        : <CheckBoxIcon data-testid={CheckpointTestElemsEnum.nonActiveIcon} />;
     }
   }, [iconRender, checkedInput]);
 
@@ -55,7 +58,7 @@ const Checkbox: FC<ICheckboxProps> = (
     if (onChange) onChange(checked, value, event);
   }, [onChange, value]);
 
-  const onClickLabel: MouseEventHandler<HTMLLabelElement> = useCallback((event) => {
+  const onClickLabel = useCallback((event: MouseEvent<HTMLLabelElement>) => {
     if (moved || disabled) event.preventDefault();
   }, [disabled, moved]);
 
@@ -63,12 +66,12 @@ const Checkbox: FC<ICheckboxProps> = (
     <ThemeProvider theme={theme}>
       <CheckboxWrap onClick={onClickLabel} className={className}>
         <CheckboxIcon checkboxSize={checkboxSize}>{checkboxIcon}</CheckboxIcon>
-        {moved && <CheckboxDragIcon/>}
-        <CheckboxInput name={name} type="checkbox" onChange={onChangeInput} checked={checkedInput}/>
+        {moved && <CheckboxDragIcon data-testid={CheckpointTestElemsEnum.moveIcon} />}
+        <CheckboxInput name={name} type="checkbox" onChange={onChangeInput} checked={checkedInput} />
         {children && <CheckboxText>{children}</CheckboxText>}
       </CheckboxWrap>
     </ThemeProvider>
   );
-}
+};
 
 export default Checkbox;

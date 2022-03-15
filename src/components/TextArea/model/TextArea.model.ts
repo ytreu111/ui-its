@@ -1,11 +1,12 @@
-import CSS from "csstype";
+import CSS from 'csstype';
 
 export interface ITextAreaProps {
   resizable?: boolean;
   placeholder?: string;
   editableHelp?: string;
   disabled?: boolean;
-  value?: string;
+  readonly?: boolean;
+  value?: string | number;
   error?: boolean;
   label?: string;
   width?: CSS.Property.Width | number;

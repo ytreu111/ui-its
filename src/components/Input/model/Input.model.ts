@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import CSS from "csstype";
+import CSS from 'csstype';
 
 export interface IInputProps {
   value?: string;
@@ -18,6 +18,7 @@ export interface IInputProps {
   optional?: () => void;
   optionalIcon?: ReactNode;
   type?: InputType;
+  className?: string;
 }
 
 export enum InputTypeEnum {

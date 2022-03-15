@@ -1,17 +1,17 @@
-import React, { FC, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import _ from "underscore";
-import { StarIcon } from "ui-its-icons";
+import React, { FC, ReactElement, ReactNode, useCallback, useMemo, useState } from 'react';
+import _ from 'underscore';
+import { StarIcon } from 'ui-its-icons';
 
-import { IButtonGroupProps, IButtonOptions } from "./model/Group.model";
-import { ButtonStyleEnum, ButtonTypeEnum } from "./model/Button.model";
-import Button from "./Button";
-import { Styled } from "./style/Group.styled";
+import { IButtonGroupProps, ButtonOptions } from './model/Group.model';
+import { ButtonStyleEnum, ButtonTypeEnum } from './model/Button.model';
+import Button from './Button';
+import { Styled } from './style/Group.styled';
 
 const {
   GroupWrap,
 } = Styled;
 
-const getButtonComponent = (button: ReactElement, buttonOptions: IButtonOptions, currentValue?: string) => {
+const getButtonComponent = (button: ReactElement, buttonOptions: ButtonOptions, currentValue?: string) => {
   const props = button.props;
   const selectButton = props.value && props.value === currentValue;
   const currentButtonType = props.type ?? ButtonTypeEnum.primary;
@@ -22,7 +22,7 @@ const getButtonComponent = (button: ReactElement, buttonOptions: IButtonOptions,
   let buttonChildren;
   let currentButtonStyle;
 
-  className.push('group__button')
+  className.push('group__button');
 
   if (selectButton) {
     currentButtonStyle = buttonOptions.selectButton;
@@ -41,12 +41,12 @@ const getButtonComponent = (button: ReactElement, buttonOptions: IButtonOptions,
     icon: buttonIcon,
     onClick: buttonOptions.onChange,
     className: className.join(' '),
-  }
+  };
 
-  return <Button key={buttonKey} {...buttonProps}/>
-}
+  return <Button key={buttonKey} {...buttonProps} />;
+};
 
-const childrenButton = (children: ReactNode, buttonOptions: IButtonOptions, currentValue?: string, content?: Array<ReactNode>) => {
+const childrenButton = (children: ReactNode, buttonOptions: ButtonOptions, currentValue?: string, content?: Array<ReactNode>) => {
   let newContent = content ? [...content] : [];
 
   if (children && typeof children === 'object') {
@@ -72,7 +72,7 @@ const childrenButton = (children: ReactNode, buttonOptions: IButtonOptions, curr
   }
 
   return newContent;
-}
+};
 
 const ButtonGroup: FC<IButtonGroupProps> = (
   {
@@ -80,16 +80,12 @@ const ButtonGroup: FC<IButtonGroupProps> = (
     buttonGap = 8,
     selectButton = ButtonStyleEnum.default,
     deselectButton = ButtonStyleEnum.translucent,
-    defaultIcon = <StarIcon/>,
+    defaultIcon = <StarIcon />,
     onChange,
     defaultValue,
     children,
   }) => {
-  const [groupValue, setGroupValue] = useState<string>();
-
-  useEffect(() => {
-    if (defaultValue) setGroupValue(defaultValue);
-  }, [defaultValue]);
+  const [groupValue, setGroupValue] = useState<string | undefined>(defaultValue);
 
   const onChangeButton = useCallback((event, value) => {
     if (onChange) onChange(event, value);
@@ -104,19 +100,19 @@ const ButtonGroup: FC<IButtonGroupProps> = (
         deselectButton,
         defaultIcon,
         onChange: onChangeButton,
-      }
+      };
 
       return childrenButton(children, buttonOptions, currentValue);
     }
 
     return null;
-  }, [children, defaultIcon, deselectButton, groupValue, onChangeButton, selectButton, value])
+  }, [children, defaultIcon, deselectButton, groupValue, onChangeButton, selectButton, value]);
 
   return (
     <GroupWrap gap={buttonGap}>
       {content}
     </GroupWrap>
   );
-}
+};
 
 export default ButtonGroup;
