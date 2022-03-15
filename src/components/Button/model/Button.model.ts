@@ -39,7 +39,6 @@ export enum ButtonTypeEnum {
   magenta = 'magenta',
   blue = 'blue',
   white = 'white',
-  transparent = 'transparent',
 }
 
 export enum ButtonSizeEnum {
@@ -49,8 +48,6 @@ export enum ButtonSizeEnum {
 }
 
 export enum ButtonStyleEnum {
-  //TODO Временно убрано по просьбе дизайнеров, тк оно не используется в системе
-  // stroke = 'stroke',
   default = 'default',
   translucent = 'translucent',
   transparent = 'transparent',

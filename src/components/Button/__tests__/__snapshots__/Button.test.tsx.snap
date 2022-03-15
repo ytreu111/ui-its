@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Компонент Button ClassName 1`] = `
+"[36m<body>[39m
+  [36m<div>[39m
+    [36m<button[39m
+      [33mclass[39m=[32m\\"sc-dkPtRN sc-hKwDye ifkkxM enJpyK test size--default empty\\"[39m
+      [33mdata-testid[39m=[32m\\"primary\\"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m\\"sc-gsDKAQ\\"[39m
+      [36m/>[39m
+    [36m</button>[39m
+  [36m</div>[39m
+[36m</body>[39m"
+`;
+
+exports[`Компонент Button ClassName 2`] = `
+"[36m<body>[39m
+  [36m<div>[39m
+    [36m<button[39m
+      [33mclass[39m=[32m\\"sc-dkPtRN sc-hKwDye ifkkxM enJpyK disabled size--default rounded\\"[39m
+      [33mdata-testid[39m=[32m\\"primary\\"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m\\"sc-gsDKAQ\\"[39m
+      [36m>[39m
+        [0mbutton[0m
+      [36m</div>[39m
+    [36m</button>[39m
+  [36m</div>[39m
+[36m</body>[39m"
+`;

@@ -1,6 +1,6 @@
-import React, { FC, useCallback, useMemo } from "react";
-import { LoadingIcon } from "ui-its-icons";
-import { ThemeProvider } from "styled-components";
+import React, { FC, useCallback, useMemo } from 'react';
+import { LoadingIcon } from 'ui-its-icons';
+import { ThemeProvider } from 'styled-components';
 
 import {
   ButtonSizeEnum,
@@ -8,12 +8,12 @@ import {
   ButtonType,
   ButtonTypeEnum,
   IButtonProps,
-} from "./model/Button.model";
-import { Styled } from "./style/Button.styled";
-import theme from "styles/theme/theme";
+} from './model/Button.model';
+import { Styled } from './style/Button.styled';
+import theme from 'styles/theme/theme';
+import { ButtonTestElemsEnum } from './__tests__/Button.test.model';
 
 const {
-  StyledButton,
   LoadingIconWrap,
   TextWrap,
   PrimaryButton,
@@ -25,47 +25,48 @@ const {
   MagentaButton,
   BlueButton,
   WhiteButton,
-} = Styled
+} = Styled;
 
 const resolveButton = (props: IButtonProps, type?: ButtonType) => {
   switch (type) {
     case ButtonTypeEnum.primary: {
-      return <PrimaryButton {...props}/>
+      return <PrimaryButton data-testid={ButtonTypeEnum.primary} {...props} />;
     }
     case ButtonTypeEnum.danger: {
-      return <DangerButton {...props}/>
+      return <DangerButton data-testid={ButtonTypeEnum.danger} {...props} />;
     }
     case ButtonTypeEnum.orange: {
-      return <OrangeButton {...props}/>
+      return <OrangeButton data-testid={ButtonTypeEnum.orange} {...props} />;
     }
     case ButtonTypeEnum.yellow: {
-      return <YellowButton {...props}/>
+      return <YellowButton data-testid={ButtonTypeEnum.yellow} {...props} />;
     }
     case ButtonTypeEnum.green: {
-      return <GreenButton {...props}/>
+      return <GreenButton data-testid={ButtonTypeEnum.green} {...props} />;
     }
     case ButtonTypeEnum.purple: {
-      return <PurpleButton {...props}/>
+      return <PurpleButton data-testid={ButtonTypeEnum.purple} {...props} />;
     }
     case ButtonTypeEnum.magenta: {
-      return <MagentaButton {...props}/>
+      return <MagentaButton data-testid={ButtonTypeEnum.magenta} {...props} />;
     }
     case ButtonTypeEnum.blue: {
-      return <BlueButton {...props}/>
+      return <BlueButton data-testid={ButtonTypeEnum.blue} {...props} />;
     }
     case ButtonTypeEnum.white: {
-      return <WhiteButton {...props}/>
+      return <WhiteButton data-testid={ButtonTypeEnum.white} {...props} />;
     }
-    default:
-      return <StyledButton {...props}/>
+    default: {
+      return <PrimaryButton data-testid={ButtonTypeEnum.primary} {...props} />;
+    }
   }
-}
+};
 
 const Button: FC<IButtonProps> = (
   {
     disabled,
     buttonStyle = ButtonStyleEnum.default,
-    type= ButtonTypeEnum.primary,
+    type,
     icon,
     size = ButtonSizeEnum.default,
     loading,
@@ -80,7 +81,7 @@ const Button: FC<IButtonProps> = (
   const onClickEffect = useCallback((event: MouseEvent) => {
     const button = event.currentTarget as HTMLElement;
 
-    const circle = document.createElement("span");
+    const circle = document.createElement('span');
     const diameter = Math.max(button?.clientWidth, button?.clientHeight);
     const radius = diameter / 2;
     const { x, y } = button.getBoundingClientRect();
@@ -88,9 +89,10 @@ const Button: FC<IButtonProps> = (
     circle.style.width = circle.style.height = `${diameter}px`;
     circle.style.left = `${event.clientX - x - radius}px`;
     circle.style.top = `${event.clientY - y - radius}px`;
-    circle.classList.add("wave");
+    circle.classList.add('wave');
+    circle.setAttribute('data-testid', ButtonTestElemsEnum.wave);
 
-    const wave = button.querySelector(".wave");
+    const wave = button.querySelector('.wave');
 
     if (wave) {
       wave.remove();
@@ -121,7 +123,7 @@ const Button: FC<IButtonProps> = (
 
     if (!children) customClassName.push('empty');
 
-    return customClassName.join(' ')
+    return customClassName.join(' ');
   }, [className, disabled, buttonStyle, type, size, rounded, loading, children]);
 
   const content = useMemo(() => {
@@ -129,9 +131,9 @@ const Button: FC<IButtonProps> = (
       <>
         {icon}
         <TextWrap>{children}</TextWrap>
-        {loading && <LoadingIconWrap><LoadingIcon/></LoadingIconWrap>}
+        {loading && <LoadingIconWrap data-testid={ButtonTestElemsEnum.loading}><LoadingIcon /></LoadingIconWrap>}
       </>
-    )
+    );
   }, [icon, children, loading]);
 
   const buttonProps = {
@@ -139,14 +141,13 @@ const Button: FC<IButtonProps> = (
     className: buttonClassName,
     children: content,
     onClick: onClickEvent,
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
       {resolveButton(buttonProps, type)}
     </ThemeProvider>
-  )
-
-}
+  );
+};
 
 export default Button;
